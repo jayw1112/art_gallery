@@ -1,0 +1,43 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--gray);
+
+  --gray: #5a6672;
+  --rosy: #ad858f;
+  --blush: #f2e5e4;
+  --almond: #eed7be;
+  --khaki: #baada0;
+
+  /* background: rgb(186, 173, 160);
+  background: linear-gradient(
+    0deg,
+    rgba(186, 173, 160, 1) 22%,
+    rgba(242, 229, 228, 1) 47%
+  ); */
+  background: var(--blush); /* fallback for old browsers */
+  background: linear-gradient(
+    to right,
+    var(--gray),
+    var(--blush),
+    var(--almond),
+    var(--khaki)
+  );
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* h1 {
+  text-shadow: 4px -2px 4px var(--rosy);
+  font-size: 2.5rem;
+} */

@@ -1,0 +1,51 @@
+.navbar {
+  background-color: #5a667267;
+  color: var(--blush);
+  margin: 0;
+  margin-bottom: 1rem;
+  padding: 1.2rem;
+  padding-bottom: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Add this to vertically align the items */
+  position: sticky;
+  width: 100%;
+  text-shadow: 4px -2px 4px var(--rosy);
+}
+
+.navbar a {
+  color: var(--blush);
+  text-decoration: none;
+  font-weight: 600;
+  margin: 0 0.8rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.navbar h1 {
+  text-align: center;
+  display: flex;
+  padding: 0 1rem;
+}
+
+.buttons {
+  display: flex;
+  flex-grow: 1; /* Add this to make the buttons div take up the remaining space */
+  justify-content: space-between; /* Add this to push the left and right sides to the edges */
+}
+
+.leftSide {
+  display: inline-flex;
+  align-self: start;
+  padding-left: 0.5rem;
+}
+
+.rightSide {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.logo {
+  height: 3rem;
+}
