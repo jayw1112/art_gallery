@@ -4,6 +4,7 @@ import classes from './Gallery.module.css'
 import ErrorBoundary from '../Error/ErrorBoundary'
 import { storage, storageRef } from '../../firebase'
 import { ref, listAll, getDownloadURL } from 'firebase/storage'
+import Spinner from '../UI/Spinner'
 
 function Gallery() {
   const [images, setImages] = useState([])
@@ -32,7 +33,7 @@ function Gallery() {
 
   return (
     <div className={classes.container}>
-      {loading && <h2>Loading...</h2>}
+      {loading && <Spinner />}
       {images.map((image) => (
         <ErrorBoundary fallback={<p>Error Displaying Image.</p>} key={image}>
           <ImageCard image={image} />
