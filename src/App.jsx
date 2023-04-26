@@ -1,10 +1,12 @@
 import './App.css'
-import Navbar from './components/Navbar'
+import Gallery from './components/GalleryUI/Gallery'
+import Navbar from './components/UI/Navbar'
 
 function App() {
   return (
     <>
       <Navbar />
+      <Gallery />
     </>
   )
 }

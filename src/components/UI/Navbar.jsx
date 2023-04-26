@@ -1,6 +1,6 @@
 import React from 'react'
 import classes from './Navbar.module.css'
-import logo from '../assets/paint_brush_logo1.png'
+import logo from '../../assets/paint_brush_logo1.png'
 // import { NavLink } from 'react-router-dom'
 
 function Navbar() {
