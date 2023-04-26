@@ -5,7 +5,7 @@
   padding: 1.2rem;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.8); /* Adjust the vertical offset */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8); /* Adjust the vertical offset */
   transition: all 0.3s ease-in-out;
 }
 
@@ -17,8 +17,8 @@
 
 .card p {
   font-size: 1.2rem;
-  margin: 1rem;
-  padding: 0.3rem;
+  margin: 1.2rem;
+  padding: 0.85rem;
   text-align: center;
   color: var(--gray);
   text-shadow: 0 0 10px var(--rosy);
