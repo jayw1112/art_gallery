@@ -1,16 +1,18 @@
 .card {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* align-items: center; */
   margin: 1rem;
   padding: 1.2rem;
-  /* width: 30%;
-  height: 30%; */
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.8); /* Adjust the vertical offset */
   transition: all 0.3s ease-in-out;
+}
+
+.card img {
+  cursor: pointer;
+  width: 100%; /* Set the width to 100% of the card */
+  height: auto; /* Set the height to auto to maintain aspect ratio */
 }
 
 .card p {
@@ -22,6 +24,6 @@
   text-shadow: 0 0 10px var(--rosy);
 }
 
-.card img {
+/* .card img {
   cursor: pointer;
-}
+} */
