@@ -1,14 +1,18 @@
 import './App.css'
-import Gallery from './components/GalleryUI/Gallery'
-import Navbar from './components/UI/Navbar'
+import Nav from '../src/pages/Nav'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import Home from './pages/Home'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Nav />,
+    children: [{ index: true, element: <Home /> }],
+  },
+])
 
 function App() {
-  return (
-    <>
-      <Navbar />
-      <Gallery />
-    </>
-  )
+  return <RouterProvider router={router} />
 }
 
 export default App
