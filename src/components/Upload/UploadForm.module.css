@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  padding: 1.2rem;
+  border-radius: 10px;
+  /* overflow: hidden; */
+  transition: all 0.3s ease-in-out;
+}
+
+.uploadForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  padding: 1.2rem;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8); /* Adjust the vertical offset */
+  transition: all 0.3s ease-in-out;
+}
+
+.uploadForm input {
+  margin: 1.2rem;
+  padding: 0.7rem;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--gray);
+  background-color: var(--khaki);
+  text-shadow: 0 0 10px var(--rosy);
+}
+
+.uploadForm button {
+  margin: 1.2rem;
+  padding: 0.7rem;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--gray);
+  background-color: var(--khaki);
+  text-shadow: 0 0 10px var(--rosy);
+}
+
+.file {
+  display: none;
+}
+
+.container h2 {
+  margin-bottom: 1.5rem;
+}
+
+.container p {
+  margin: 1rem 0;
+}
+
+/* .customFileButton {
+
+} */
