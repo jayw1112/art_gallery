@@ -117,6 +117,7 @@ function UploadForm() {
         setFile(null)
         setTitle('')
         setDescription('')
+        setError(null)
       })
     } else {
       setError('Please fill out all fields.')

@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getStorage, ref, uploadBytes } from 'firebase/storage'
@@ -21,8 +22,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
+const auth = getAuth(app)
 
 const storage = getStorage(app)
 const storageRef = ref(storage, 'gs://palette-express.appspot.com/default_pics')
 
-export { storage, analytics, app, storageRef, ref, uploadBytes }
+export { storage, analytics, app, storageRef, ref, uploadBytes, auth }
