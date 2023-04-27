@@ -1,7 +1,7 @@
 import React from 'react'
 import classes from './Navbar.module.css'
 import logo from '../../assets/paint_brush_logo1.png'
-// import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 function Navbar() {
   return (
@@ -10,13 +10,49 @@ function Navbar() {
       <h1>Palette Express</h1>
       <div className={classes.buttons}>
         <div className={classes.leftSide}>
-          <a to='/'>Home</a>
-          <a to='/about'>About</a>
-          <a to='/contact'>Contact</a>
+          <NavLink
+            to='/'
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+            end
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to='/'
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+          >
+            About
+          </NavLink>
+          <NavLink
+            to='/upload'
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+          >
+            Upload
+          </NavLink>
         </div>
         <div className={classes.rightSide}>
-          <a to='/login'>Login</a>
-          <a to='/signup'>Signup</a>
+          <NavLink
+            to='/login'
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+          >
+            Login
+          </NavLink>
+          <NavLink
+            to='/signup'
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+          >
+            Signup
+          </NavLink>
         </div>
       </div>
     </nav>

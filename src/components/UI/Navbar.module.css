@@ -51,3 +51,8 @@
 .logo {
   height: 3rem;
 }
+
+.active {
+  color: var(--rosy);
+  text-shadow: 0 0 10px var(--blush);
+}
