@@ -17,7 +17,9 @@
 .containerWithImage {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 25rem;
+  /* grid-gap: 25rem; */
+  grid-gap: 20%;
+
   justify-content: center;
   align-items: center;
   margin: 0 15rem;
