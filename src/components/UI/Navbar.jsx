@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AuthContext } from '../../source/auth-context'
 import classes from './Navbar.module.css'
 import logo from '../../assets/paint_brush_logo1.png'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
+import { getAuth, signOut } from 'firebase/auth'
 
 function Navbar() {
+  const { currentUser } = useContext(AuthContext)
+  const auth = getAuth()
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log('signed out')
+      })
+      .catch((error) => {
+        console.error('Error signing out:', error)
+      })
+  }
   return (
     <nav className={classes.navbar}>
       <img src={logo} alt='logo' className={classes.logo} />
@@ -37,22 +51,30 @@ function Navbar() {
           </NavLink>
         </div>
         <div className={classes.rightSide}>
-          <NavLink
-            to='/login'
-            className={({ isActive }) =>
-              isActive ? classes.active : undefined
-            }
-          >
-            Login
-          </NavLink>
-          <NavLink
-            to='/signup'
-            className={({ isActive }) =>
-              isActive ? classes.active : undefined
-            }
-          >
-            Signup
-          </NavLink>
+          {!currentUser ? (
+            <>
+              <NavLink
+                to='/login'
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to='/signup'
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                Signup
+              </NavLink>
+            </>
+          ) : (
+            <Link to='/' onClick={handleSignOut}>
+              Logout
+            </Link>
+          )}
         </div>
       </div>
     </nav>
