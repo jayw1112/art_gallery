@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import { AuthProvider } from './source/auth-context'
 import PrivateRoute from './components/Login/PrivateRoute'
+import Profile from './User/Profile'
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
       },
       { path: 'login', element: <Login /> },
       { path: 'signup', element: <Signup /> },
+      {
+        path: 'profile',
+        element: (
+          <PrivateRoute>
+            <Profile />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ])

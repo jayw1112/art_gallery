@@ -15,15 +15,30 @@
   height: auto; /* Set the height to auto to maintain aspect ratio */
 }
 
-.card p {
+.title {
   font-size: 1.2rem;
-  margin: 1.2rem;
+  font-weight: bold;
+  margin-top: 1.2rem;
   padding: 0.85rem;
   text-align: center;
   color: var(--gray);
   text-shadow: 0 0 10px var(--rosy);
 }
 
-/* .card img {
-  cursor: pointer;
-} */
+.card:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4); /* Adjust the vertical offset */
+  transform: scale(1.02);
+}
+
+.card:hover img {
+  opacity: 0.8;
+}
+
+.description {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+  padding: 0.5rem;
+  color: var(--gray);
+  text-shadow: 0 0 10px var(--rosy);
+}

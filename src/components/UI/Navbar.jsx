@@ -73,9 +73,19 @@ function Navbar() {
               </NavLink>
             </>
           ) : (
-            <Link to='/' onClick={handleSignOut}>
-              Logout
-            </Link>
+            <>
+              <NavLink
+                to='/profile'
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                Profile
+              </NavLink>
+              <Link to='/' onClick={handleSignOut}>
+                Logout
+              </Link>
+            </>
           )}
         </div>
       </div>
