@@ -12,7 +12,7 @@ function Navbar() {
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        console.log('signed out')
+        console.log('Signed Out')
       })
       .catch((error) => {
         console.error('Error signing out:', error)
@@ -41,14 +41,16 @@ function Navbar() {
           >
             About
           </NavLink>
-          <NavLink
-            to='/upload'
-            className={({ isActive }) =>
-              isActive ? classes.active : undefined
-            }
-          >
-            Upload
-          </NavLink>
+          {currentUser && (
+            <NavLink
+              to='/upload'
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+            >
+              Upload
+            </NavLink>
+          )}
         </div>
         <div className={classes.rightSide}>
           {!currentUser ? (

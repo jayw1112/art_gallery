@@ -7,6 +7,7 @@ import Upload from './pages/Upload'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import { AuthProvider } from './source/auth-context'
+import PrivateRoute from './components/Login/PrivateRoute'
 
 const router = createBrowserRouter([
   {
@@ -15,7 +16,14 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'upload', element: <Upload /> },
+      {
+        path: 'upload',
+        element: (
+          <PrivateRoute>
+            <Upload />
+          </PrivateRoute>
+        ),
+      },
       { path: 'login', element: <Login /> },
       { path: 'signup', element: <Signup /> },
     ],

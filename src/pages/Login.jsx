@@ -14,7 +14,7 @@ function Login() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user
-        console.log(user, 'logged in')
+        console.log(user, 'Logged In')
         navigate('/')
         // ...
       })

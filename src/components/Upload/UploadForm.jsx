@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import classes from './UploadForm.module.css'
 import Spinner from '../UI/Spinner'
 import { storage, storageRef, ref, uploadBytes } from '../../firebase'
+import { getUserStorageRef } from '../../utility/firebase.utils'
+import { AuthContext } from '../../source/auth-context'
 
 function UploadForm() {
   const [file, setFile] = useState(null)
@@ -13,6 +15,7 @@ function UploadForm() {
   //   const [progress, setProgress] = useState(0)
   const [success, setSuccess] = useState(false)
   const [successTimeout, setSuccessTimeout] = useState(null)
+  const { currentUser } = useContext(AuthContext)
 
   const handleFileButtonClick = (e) => {
     e.preventDefault()
@@ -95,7 +98,8 @@ function UploadForm() {
 
     e.preventDefault()
     if (file && title && description) {
-      const imageRef = ref(storageRef, generateUniqueId() + '-' + title)
+      const userStorageRef = getUserStorageRef(storage, currentUser)
+      const imageRef = ref(userStorageRef, `${generateUniqueId()}-${title}`)
 
       uploadBytes(imageRef, file, metadata).then((snapshot) => {
         console.log('Uploaded Image!')

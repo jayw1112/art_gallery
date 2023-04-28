@@ -23,8 +23,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const analytics = getAnalytics(app)
 const auth = getAuth(app)
+// const user = auth.user
 
 const storage = getStorage(app)
 const storageRef = ref(storage, 'gs://palette-express.appspot.com/default_pics')
+// const userStorageRef = ref(
+//   storage,
+//   `gs://palette-express.appspot.com/users/${user.uid}/`
+// )
 
-export { storage, analytics, app, storageRef, ref, uploadBytes, auth }
+export {
+  storage,
+  analytics,
+  app,
+  storageRef,
+  ref,
+  uploadBytes,
+  auth,
+  //   userStorageRef,
+}
