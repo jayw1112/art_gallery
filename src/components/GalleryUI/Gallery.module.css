@@ -6,3 +6,14 @@
   margin: 2rem;
   padding: 1rem;
 }
+
+.display {
+  font-size: 1.3rem;
+  text-align: start;
+  color: var(--gray);
+  text-shadow: 0 0 10px var(--khaki);
+  margin: auto 6rem;
+  margin-top: -3rem;
+  margin-bottom: -1.5rem;
+  /* padding: auto 5rem; */
+}
