@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import AuthForm from '../components/Login/AuthForm'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 function Signup() {
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const handleSignup = (email, password) => {
     const auth = getAuth()
@@ -11,6 +13,8 @@ function Signup() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user
+        console.log(user, 'signed up')
+        navigate('/')
         // ...
       })
       .catch((error) => {

@@ -6,6 +6,7 @@ import ErrorPage from './pages/ErrorPage'
 import Upload from './pages/Upload'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
+import { AuthProvider } from './source/auth-context'
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
 ])
 
 function App() {
-  return <RouterProvider router={router} />
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  )
 }
 
 export default App
