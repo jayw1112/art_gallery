@@ -58,6 +58,14 @@ function EditAccountForm({ closeModal }) {
   const navigate = useNavigate()
 
   const handleDeleteAccount = async () => {
+    const confirmation = window.confirm(
+      'Are you sure you want to delete your account? This action cannot be undone.'
+    )
+
+    if (!confirmation) {
+      return
+    }
+
     try {
       await deleteUser(user)
       closeModal()
