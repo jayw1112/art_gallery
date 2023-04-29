@@ -8,7 +8,7 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import { AuthProvider } from './source/auth-context'
 import PrivateRoute from './components/Login/PrivateRoute'
-import Profile from './User/Profile'
+import Profile from './components/User/Profile'
 
 const router = createBrowserRouter([
   {
