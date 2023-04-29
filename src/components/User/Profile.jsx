@@ -89,11 +89,11 @@ function Profile() {
     <>
       <h2 className={classes.title}>{currentUser.displayName}'s Images</h2>
       <div className={classes.profileContainer}>
-        <div className={classes.imageGrid}>
+        <div>
           {loading ? (
             <Spinner />
           ) : (
-            <div>
+            <div className={classes.imageGrid}>
               {images.map((image, index) => (
                 <ImageCard
                   key={index}

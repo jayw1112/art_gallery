@@ -22,6 +22,10 @@
   position: relative;
 }
 
+.modal button {
+  cursor: pointer;
+}
+
 .close {
   position: absolute;
   top: 0.2rem;
@@ -35,6 +39,6 @@
   /* margin-top: 1.9rem; */
 }
 
-.close:hover {
+.modal button:hover {
   color: var(--rosy);
 }

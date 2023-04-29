@@ -1,13 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { AuthContext } from '../../source/auth-context'
 import classes from './Navbar.module.css'
 import logo from '../../assets/paint_brush_logo1.png'
 import { NavLink, Link } from 'react-router-dom'
 import { getAuth, signOut } from 'firebase/auth'
+import AccountModal from './AccountModal'
 
 function Navbar() {
   const { currentUser } = useContext(AuthContext)
   const auth = getAuth()
+
+  const [isAccountModalOpen, setIsAccountModalOpen] = useState(false)
 
   const handleSignOut = () => {
     signOut(auth)
@@ -18,6 +21,15 @@ function Navbar() {
         console.error('Error signing out:', error)
       })
   }
+
+  const openAccountModal = () => {
+    setIsAccountModalOpen(true)
+  }
+
+  const closeAccountModal = () => {
+    setIsAccountModalOpen(false)
+  }
+
   return (
     <nav className={classes.navbar}>
       <img src={logo} alt='logo' className={classes.logo} />
@@ -82,6 +94,7 @@ function Navbar() {
               >
                 Profile
               </NavLink>
+              <Link onClick={openAccountModal}>Account</Link>
               <Link to='/' onClick={handleSignOut}>
                 Logout
               </Link>
@@ -89,6 +102,12 @@ function Navbar() {
           )}
         </div>
       </div>
+      {currentUser && (
+        <AccountModal
+          isModalOpen={isAccountModalOpen}
+          closeModal={closeAccountModal}
+        />
+      )}
     </nav>
   )
 }
