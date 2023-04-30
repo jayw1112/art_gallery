@@ -9,6 +9,25 @@ import Signup from './pages/Signup'
 import { AuthProvider } from './source/auth-context'
 import PrivateRoute from './components/Login/PrivateRoute'
 import Profile from './components/User/Profile'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+
+const auth = getAuth()
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid
+    console.log(uid)
+    const username = user.displayName
+    console.log(username)
+
+    // ...
+  } else {
+    // User is signed out
+    return null
+    // ...
+  }
+})
 
 const router = createBrowserRouter([
   {
@@ -28,7 +47,7 @@ const router = createBrowserRouter([
       { path: 'login', element: <Login /> },
       { path: 'signup', element: <Signup /> },
       {
-        path: 'profile',
+        path: `/profile/:uid`,
         element: (
           <PrivateRoute>
             <Profile />

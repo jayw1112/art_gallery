@@ -87,7 +87,7 @@ function Navbar() {
           ) : (
             <>
               <NavLink
-                to='/profile'
+                to={`/profile/${currentUser.uid}`}
                 className={({ isActive }) =>
                   isActive ? classes.active : undefined
                 }

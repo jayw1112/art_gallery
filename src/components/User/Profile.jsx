@@ -14,6 +14,7 @@ import ImageCard from '../GalleryUI/ImageCard'
 import classes from './Profile.module.css'
 import Spinner from '../UI/Spinner'
 import ImageModal from '../UI/ImageModal'
+import { useParams } from 'react-router-dom'
 
 function Profile() {
   const [images, setImages] = useState([])
@@ -21,9 +22,10 @@ function Profile() {
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
+  const { uid } = useParams()
 
   const fetchImages = async () => {
-    const userStorageRef = getUserStorageRef(storage, currentUser)
+    const userStorageRef = getUserStorageRef(storage, uid)
     const imageList = await listAll(userStorageRef)
     const fetchedImages = await Promise.all(
       imageList.items.map(async (item) => {
@@ -40,10 +42,10 @@ function Profile() {
   }
 
   useEffect(() => {
-    if (currentUser) {
+    if (uid) {
       fetchImages()
     }
-  }, [currentUser])
+  }, [uid])
 
   const openModal = (image) => {
     setIsModalOpen(true)

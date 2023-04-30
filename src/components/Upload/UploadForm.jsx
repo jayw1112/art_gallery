@@ -17,6 +17,8 @@ function UploadForm() {
   const [successTimeout, setSuccessTimeout] = useState(null)
   const { currentUser } = useContext(AuthContext)
 
+  const uid = currentUser ? currentUser.uid : null
+
   const handleFileButtonClick = (e) => {
     e.preventDefault()
     const fileInput = document.getElementById('file')
@@ -39,8 +41,8 @@ function UploadForm() {
       if (!allowedTypes.includes(fileType)) {
         setError('Please upload a JPEG or PNG image.')
         setFile(null)
-      } else if (fileSize > 2 * 1024 * 1024) {
-        setError('Please upload an image 2MB or less.')
+      } else if (fileSize > 3 * 1024 * 1024) {
+        setError('Please upload an image 3MB or less.')
         setFile(null)
       } else {
         setError(null)
@@ -57,6 +59,8 @@ function UploadForm() {
           setImageURL(null)
         }
       }
+    } else {
+      setError('Failed to upload image. Please try again.')
     }
   }
 
@@ -98,7 +102,9 @@ function UploadForm() {
 
     e.preventDefault()
     if (file && title && description) {
-      const userStorageRef = getUserStorageRef(storage, currentUser)
+      const userStorageRef = getUserStorageRef(storage, uid)
+      console.log('userStorageRef:', userStorageRef) // Debugging line
+      console.log('uid:', uid) // Debugging line
       const imageRef = ref(userStorageRef, `${generateUniqueId()}-${title}`)
 
       uploadBytes(imageRef, file, metadata).then((snapshot) => {
@@ -128,10 +134,12 @@ function UploadForm() {
     }
   }
 
-  //     } else {
-  //       setError('Please fill out all fields.')
-  //     }
-  //   }
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && e.target.type !== 'textarea') {
+      e.preventDefault()
+      handleSubmit(e)
+    }
+  }
 
   return (
     <div className={imageURL ? classes.containerWithImage : classes.container}>
@@ -140,6 +148,7 @@ function UploadForm() {
         onSubmit={handleSubmit}
         action=''
         method='post'
+        onKeyPress={handleKeyPress}
       >
         <h2>Upload Your Image</h2>
 
