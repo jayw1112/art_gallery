@@ -67,7 +67,6 @@ function Profile() {
   }, [currentUser, uid])
 
   const openModal = (image) => {
-    console.log('openModal called')
     setIsModalOpen(true)
     setSelectedImage(image)
   }
@@ -133,7 +132,6 @@ function Profile() {
                     onClick={
                       currentUser.uid === image.metadata.customMetadata.owner
                         ? () => {
-                            console.log('Image clicked')
                             openModal(image)
                           }
                         : null
