@@ -7,7 +7,6 @@ import { Likes, db } from '../../firebase'
 import {
   deleteDoc,
   doc,
-  getCountFromServer,
   getDoc,
   serverTimestamp,
   setDoc,
@@ -59,12 +58,18 @@ function ImageCard({ image, title, description, onClick, imageId }) {
 
   const likeCounter = async () => {
     // Get the number of likes for this image.
-    const q = query(Likes, where('imageId', '==', imageId))
-    const querySnapshot = await getDocs(q)
-    const likes = querySnapshot.size
-    // Display the number of likes.
-    setlikeCount(likes)
-    console.log(`Likes: ${likes}`)
+    // Check if imageId exists before querying the Likes collection.
+    if (imageId) {
+      const q = query(Likes, where('imageId', '==', imageId))
+      const querySnapshot = await getDocs(q)
+      const likes = querySnapshot.size
+      // Display the number of likes.
+      setlikeCount(likes)
+      console.log(`Likes: ${likes}`)
+    } else {
+      console.log('imageId is missing, unable to count likes')
+      setlikeCount(0)
+    }
   }
 
   useEffect(() => {
@@ -85,7 +90,7 @@ function ImageCard({ image, title, description, onClick, imageId }) {
           className={classes.buttonIcon}
           src={thumb_up}
           alt='Like'
-          onClick={(e) => likeHandler(event, uid)}
+          onClick={(e) => likeHandler(e, uid)}
         />
         {likeCount > 0 ? (
           <p className={classes.likeCount}>{likeCount}</p>

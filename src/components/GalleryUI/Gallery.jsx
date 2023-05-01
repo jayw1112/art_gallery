@@ -3,14 +3,16 @@ import ImageCard from './ImageCard'
 import classes from './Gallery.module.css'
 import ErrorBoundary from '../Error/ErrorBoundary'
 import { storage, storageRef } from '../../firebase'
-import { ref, listAll, getDownloadURL } from 'firebase/storage'
+import { ref, listAll, getDownloadURL, getMetadata } from 'firebase/storage'
 import Spinner from '../UI/Spinner'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import useAuthState from '../../hooks/use-authState'
 
 function Gallery() {
   const [images, setImages] = useState([])
   const [loading, setLoading] = useState(false)
-  const [displayName, setDisplayName] = useState('')
+  // const [displayName, setDisplayName] = useState('')
+  const displayName = useAuthState()
 
   // First useEffect hook - Fetching images
   useEffect(() => {
@@ -18,20 +20,20 @@ function Gallery() {
   }, [])
 
   // Second useEffect hook - Handling user's auth state
-  useEffect(() => {
-    const auth = getAuth()
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in, update the displayName state
-        setDisplayName(user.displayName || user.email)
-      } else {
-        // User is signed out
-        setDisplayName('')
-      }
-    })
-    // Cleanup the listener on unmount
-    return () => unsubscribe()
-  }, [])
+  // useEffect(() => {
+  //   const auth = getAuth()
+  //   const unsubscribe = onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       // User is signed in, update the displayName state
+  //       setDisplayName(user.displayName || user.email)
+  //     } else {
+  //       // User is signed out
+  //       setDisplayName('')
+  //     }
+  //   })
+  //   // Cleanup the listener on unmount
+  //   return () => unsubscribe()
+  // }, [])
 
   const getImages = async () => {
     setLoading(true)
@@ -42,6 +44,8 @@ function Gallery() {
 
     const fetchUrls = imageNames.items.map(async (itemRef) => {
       const url = await getDownloadURL(itemRef)
+      // const metadata = await getMetadata(itemRef)
+      // const imageId = metadata.name
       imageUrls.push(url)
     })
 
@@ -64,7 +68,10 @@ function Gallery() {
               fallback={<p>Error Displaying Image.</p>}
               key={image}
             >
-              <ImageCard image={image} />
+              <ImageCard
+                image={image}
+                // imageId={imageId}
+              />
             </ErrorBoundary>
           ))
         )}
