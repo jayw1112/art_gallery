@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { storage } from '../../firebase'
+import { db, storage } from '../../firebase'
 import {
   listAll,
   ref,
@@ -15,6 +15,7 @@ import classes from './Profile.module.css'
 import Spinner from '../UI/Spinner'
 import ImageModal from '../UI/ImageModal'
 import { useParams } from 'react-router-dom'
+import { getDoc, doc } from 'firebase/firestore'
 
 function Profile() {
   const [images, setImages] = useState([])
@@ -22,10 +23,11 @@ function Profile() {
   const [loading, setLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null)
+  const [displayName, setDisplayName] = useState()
   const { uid } = useParams()
 
   const fetchImages = async () => {
-    const userStorageRef = getUserStorageRef(storage, uid)
+    const userStorageRef = getUserStorageRef(storage, currentUser.uid)
     const imageList = await listAll(userStorageRef)
     const fetchedImages = await Promise.all(
       imageList.items.map(async (item) => {
@@ -41,11 +43,27 @@ function Profile() {
     setLoading(false)
   }
 
-  useEffect(() => {
-    if (uid) {
-      fetchImages()
+  const fetchUserData = async (uid) => {
+    const userDocRef = doc(db, 'users', uid)
+    try {
+      const userDoc = await getDoc(userDocRef)
+      if (userDoc.exists()) {
+        const userData = userDoc.data()
+        setDisplayName(userData.displayName)
+      } else {
+        console.log('User not found')
+      }
+    } catch (error) {
+      console.log('Error fetching user data:', error)
     }
-  }, [uid])
+  }
+
+  useEffect(() => {
+    if (currentUser?.uid) {
+      fetchImages()
+      fetchUserData(uid)
+    }
+  }, [currentUser, uid])
 
   const openModal = (image) => {
     setIsModalOpen(true)
@@ -89,7 +107,9 @@ function Profile() {
 
   return (
     <>
-      <h2 className={classes.title}>{currentUser.displayName}'s Images</h2>
+      <h2 className={classes.title}>
+        {displayName ? `${displayName}'s Images` : 'Loading...'}
+      </h2>
       <div className={classes.profileContainer}>
         <div>
           {loading ? (

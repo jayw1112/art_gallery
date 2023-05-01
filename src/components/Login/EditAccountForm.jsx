@@ -10,6 +10,8 @@ import {
 } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../source/auth-context'
+import { updateUserData } from '../../utility/firebase.utils'
+import { db } from '../../firebase'
 
 function EditAccountForm({ closeModal }) {
   const auth = getAuth()
@@ -36,6 +38,8 @@ function EditAccountForm({ closeModal }) {
 
         await auth.currentUser.reload()
       }
+      // Update Firestore data
+      await updateUserData(db, user, displayName, email)
     } catch (error) {
       if (error.code === 'auth/requires-recent-login') {
         setWarningMessage(

@@ -6,6 +6,8 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { storeUserData } from '../utility/firebase.utils'
+import { db } from '../firebase'
 
 function Signup() {
   const [error, setError] = useState('')
@@ -17,6 +19,7 @@ function Signup() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user
+        storeUserData(db, user, username)
         console.log(user, 'Signed Up')
         updateProfile(auth.currentUser, {
           displayName: username,
