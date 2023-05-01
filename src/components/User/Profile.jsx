@@ -27,7 +27,7 @@ function Profile() {
   const { uid } = useParams()
 
   const fetchImages = async () => {
-    const userStorageRef = getUserStorageRef(storage, currentUser.uid)
+    const userStorageRef = getUserStorageRef(storage, uid)
     const imageList = await listAll(userStorageRef)
     const fetchedImages = await Promise.all(
       imageList.items.map(async (item) => {
@@ -52,6 +52,7 @@ function Profile() {
         setDisplayName(userData.displayName)
       } else {
         console.log('User not found')
+        setDisplayName(null)
       }
     } catch (error) {
       console.log('Error fetching user data:', error)
@@ -66,6 +67,7 @@ function Profile() {
   }, [currentUser, uid])
 
   const openModal = (image) => {
+    console.log('openModal called')
     setIsModalOpen(true)
     setSelectedImage(image)
   }
@@ -82,6 +84,7 @@ function Profile() {
       customMetadata: {
         title: newTitle,
         description: newDescription,
+        owner: currentUser.uid,
       },
     }
 
@@ -108,7 +111,11 @@ function Profile() {
   return (
     <>
       <h2 className={classes.title}>
-        {displayName ? `${displayName}'s Images` : 'Loading...'}
+        {displayName !== undefined
+          ? displayName
+            ? `${displayName}'s Images`
+            : 'No profile found'
+          : 'Loading...'}
       </h2>
       <div className={classes.profileContainer}>
         <div>
@@ -116,15 +123,24 @@ function Profile() {
             <Spinner />
           ) : (
             <div className={classes.imageGrid}>
-              {images.map((image, index) => (
-                <ImageCard
-                  key={index}
-                  image={image.url}
-                  title={image.metadata.customMetadata.title}
-                  description={image.metadata.customMetadata.description}
-                  onClick={() => openModal(image)}
-                />
-              ))}
+              {images.map((image, index) => {
+                return (
+                  <ImageCard
+                    key={index}
+                    image={image.url}
+                    title={image.metadata.customMetadata.title}
+                    description={image.metadata.customMetadata.description}
+                    onClick={
+                      currentUser.uid === image.metadata.customMetadata.owner
+                        ? () => {
+                            console.log('Image clicked')
+                            openModal(image)
+                          }
+                        : null
+                    }
+                  />
+                )
+              })}
             </div>
           )}
         </div>

@@ -39,6 +39,10 @@ function EditImageForm({
     }
   }
 
+  // Check if the current user is the owner of the image
+  // const isOwner =
+  //   currentUser.uid === selectedImage.metadata.customMetadata.owner
+
   return (
     <div className={classes.formContainer}>
       <form onSubmit={handleSubmit}>

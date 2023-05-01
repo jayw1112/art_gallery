@@ -96,7 +96,7 @@ function UploadForm() {
       customMetadata: {
         title: title,
         description: description,
-        // userID eventually
+        owner: currentUser.uid, // the user ID of the uploader
       },
     }
 
