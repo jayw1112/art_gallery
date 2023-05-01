@@ -60,10 +60,10 @@ function Profile() {
   }
 
   useEffect(() => {
-    if (currentUser?.uid) {
-      fetchImages()
-      fetchUserData(uid)
-    }
+    // if (currentUser?.uid) {
+    fetchImages()
+    fetchUserData(uid)
+    // }
   }, [currentUser, uid])
 
   const openModal = (image) => {
@@ -129,7 +129,9 @@ function Profile() {
                     image={image.url}
                     title={image.metadata.customMetadata.title}
                     description={image.metadata.customMetadata.description}
+                    imageId={image.metadata.name}
                     onClick={
+                      currentUser &&
                       currentUser.uid === image.metadata.customMetadata.owner
                         ? () => {
                             openModal(image)

@@ -3,7 +3,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { initializeApp } from 'firebase/app'
 import { getAnalytics } from 'firebase/analytics'
 import { getStorage, ref, uploadBytes } from 'firebase/storage'
-import { getFirestore } from 'firebase/firestore'
+import { collection, getFirestore } from 'firebase/firestore'
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -28,5 +28,16 @@ const db = getFirestore(app)
 
 const storage = getStorage(app)
 const storageRef = ref(storage, 'gs://palette-express.appspot.com/default_pics')
+const Likes = collection(db, 'Likes')
 
-export { storage, analytics, app, storageRef, ref, uploadBytes, auth, db }
+export {
+  storage,
+  analytics,
+  app,
+  storageRef,
+  ref,
+  uploadBytes,
+  auth,
+  db,
+  Likes,
+}

@@ -148,7 +148,7 @@ function UploadForm() {
         onSubmit={handleSubmit}
         action=''
         method='post'
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyPress}
       >
         <h2>Upload Your Image</h2>
 

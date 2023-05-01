@@ -48,11 +48,7 @@ const router = createBrowserRouter([
       { path: 'signup', element: <Signup /> },
       {
         path: `/profile/:uid`,
-        element: (
-          <PrivateRoute>
-            <Profile />
-          </PrivateRoute>
-        ),
+        element: <Profile />,
       },
     ],
   },
