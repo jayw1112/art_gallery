@@ -1,5 +1,6 @@
 import { ref } from 'firebase/storage'
-import { collection, doc, setDoc } from 'firebase/firestore'
+import { collection, doc, setDoc, getDoc } from 'firebase/firestore'
+import { db } from '../firebase'
 
 export const getUserStorageRef = (storage, uid) => {
   if (uid) {
@@ -41,5 +42,22 @@ export const updateUserData = async (firestore, user, displayName, email) => {
     console.log('User data updated successfully!')
   } catch (error) {
     console.log('Error updating user data:', error)
+  }
+}
+
+export const fetchUserName = async (uid) => {
+  const userDocRef = doc(db, 'users', uid)
+  try {
+    const userDoc = await getDoc(userDocRef)
+    if (userDoc.exists()) {
+      const userData = userDoc.data()
+      return userData.displayName
+    } else {
+      console.log('User not found')
+      return null
+    }
+  } catch (error) {
+    console.log('Error fetching user data:', error)
+    return null
   }
 }

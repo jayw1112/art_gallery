@@ -49,18 +49,18 @@ function ImageCard({ image, title, description, onClick, imageId }) {
     }
   }
 
-  const likeCounter = async () => {
-    if (imageId) {
-      const q = query(ImageLikes, where('imageId', '==', imageId))
-      const querySnapshot = await getDocs(q)
-      const likes = querySnapshot.size
-      setlikeCount(likes)
-      console.log(`Likes: ${likes}`)
-    } else {
-      console.log('imageId is missing, unable to count likes')
-      setlikeCount(0)
-    }
-  }
+  // const likeCounter = async () => {
+  //   if (imageId) {
+  //     const q = query(ImageLikes, where('imageId', '==', imageId))
+  //     const querySnapshot = await getDocs(q)
+  //     const likes = querySnapshot.size
+  //     setlikeCount(likes)
+  //     console.log(`Likes: ${likes}`)
+  //   } else {
+  //     console.log('imageId is missing, unable to count likes')
+  //     setlikeCount(0)
+  //   }
+  // }
 
   useEffect(() => {
     if (!imageId) return

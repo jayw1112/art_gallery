@@ -117,7 +117,9 @@ function Profile() {
             : 'No profile found'
           : 'Loading...'}
       </h2>
-      <FollowButton currentUser={currentUser} profileUser={uid} />
+      {currentUser.uid !== uid && (
+        <FollowButton currentUser={currentUser} userId={uid} />
+      )}
       <div className={classes.profileContainer}>
         <div>
           {loading ? (
