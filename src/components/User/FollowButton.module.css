@@ -1,0 +1,25 @@
+.followContainer {
+  /* display: grid; */
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+.followContainer p {
+  font-size: 1.2rem;
+  font-weight: 500;
+  /* cursor: pointer; */
+}
+
+.followContainer img {
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-left: 0.2rem;
+  cursor: pointer;
+}
+
+.followContainer img:hover {
+  transform: scale(1.1);
+}

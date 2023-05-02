@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import classes from './ImageCard.module.css'
 import thumb_up from '../../assets/thumb_up.svg'
 import share_ from '../../assets/share_.svg'
 import { AuthContext } from '../../source/auth-context'
-import { Likes, db } from '../../firebase'
+import { ImageLikes, db } from '../../firebase'
 import {
   deleteDoc,
   doc,
@@ -13,12 +13,15 @@ import {
   where,
   query,
   getDocs,
+  collection,
+  onSnapshot,
 } from 'firebase/firestore'
 
 function ImageCard({ image, title, description, onClick, imageId }) {
   const { currentUser } = useContext(AuthContext)
   const [likeCount, setlikeCount] = useState(null)
   const uid = currentUser ? currentUser.uid : null
+  const isFirstRender = useRef(true)
 
   const likeHandler = async (e, uid) => {
     if (!uid) {
@@ -26,44 +29,31 @@ function ImageCard({ image, title, description, onClick, imageId }) {
       return
     }
     e.stopPropagation()
-    const userDocRef = doc(db, 'Likes', imageId)
+
+    const likeId = `${uid}_${imageId}`
+    const likeDocRef = doc(ImageLikes, likeId)
+
     try {
-      const userDoc = await getDoc(userDocRef)
-      if (
-        userDoc.exists() &&
-        imageId === userDoc.data().imageId &&
-        uid === userDoc.data().userId
-      ) {
-        deleteDoc(userDocRef)
-        console.log('Image unliked')
-        likeCounter()
+      const likeDoc = await getDoc(likeDocRef)
+      if (likeDoc.exists()) {
+        await deleteDoc(likeDocRef)
       } else {
-        await setDoc(userDocRef, {
+        await setDoc(likeDocRef, {
           imageId,
           userId: uid,
           timestamp: serverTimestamp(),
         })
-        console.log('Liked image')
-        likeCounter()
       }
     } catch (error) {
       console.log('Error Liking/Unliking Image', error)
     }
   }
 
-  const shareHandler = () => {
-    // Copy the image URL or a link to the image's detail page to the user's clipboard.
-    // Display a message to inform the user that the link has been copied.
-  }
-
   const likeCounter = async () => {
-    // Get the number of likes for this image.
-    // Check if imageId exists before querying the Likes collection.
     if (imageId) {
-      const q = query(Likes, where('imageId', '==', imageId))
+      const q = query(ImageLikes, where('imageId', '==', imageId))
       const querySnapshot = await getDocs(q)
       const likes = querySnapshot.size
-      // Display the number of likes.
       setlikeCount(likes)
       console.log(`Likes: ${likes}`)
     } else {
@@ -73,7 +63,23 @@ function ImageCard({ image, title, description, onClick, imageId }) {
   }
 
   useEffect(() => {
-    likeCounter()
+    if (!imageId) return
+    const q = query(ImageLikes, where('imageId', '==', imageId))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      if (isFirstRender.current) {
+        isFirstRender.current = false
+      }
+
+      // Update the like count directly within the onSnapshot callback
+      const likes = querySnapshot.size
+      setlikeCount(likes)
+      console.log(`Likes: ${likes}`)
+    })
+
+    return () => {
+      unsubscribe()
+    }
   }, [imageId])
 
   return (

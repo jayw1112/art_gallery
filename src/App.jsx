@@ -8,8 +8,8 @@ import Login from './pages/Login'
 import Signup from './pages/Signup'
 import { AuthProvider } from './source/auth-context'
 import PrivateRoute from './components/Login/PrivateRoute'
-import Profile from './components/User/Profile'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import Profile from './components/User/Profile'
 
 const auth = getAuth()
 onAuthStateChanged(auth, (user) => {

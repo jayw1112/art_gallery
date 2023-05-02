@@ -28,7 +28,10 @@ const db = getFirestore(app)
 
 const storage = getStorage(app)
 const storageRef = ref(storage, 'gs://palette-express.appspot.com/default_pics')
-const Likes = collection(db, 'Likes')
+const ImageLikes = collection(db, 'ImageLikes')
+const followingRef = collection(db, 'following')
+const followersRef = collection(db, 'followers')
+const feedsRef = collection(db, 'feeds')
 
 export {
   storage,
@@ -39,5 +42,8 @@ export {
   uploadBytes,
   auth,
   db,
-  Likes,
+  ImageLikes,
+  followingRef,
+  followersRef,
+  feedsRef,
 }

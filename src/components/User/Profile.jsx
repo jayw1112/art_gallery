@@ -16,6 +16,7 @@ import Spinner from '../UI/Spinner'
 import ImageModal from '../UI/ImageModal'
 import { useParams } from 'react-router-dom'
 import { getDoc, doc } from 'firebase/firestore'
+import FollowButton from './FollowButton'
 
 function Profile() {
   const [images, setImages] = useState([])
@@ -116,6 +117,7 @@ function Profile() {
             : 'No profile found'
           : 'Loading...'}
       </h2>
+      <FollowButton currentUser={currentUser} profileUser={uid} />
       <div className={classes.profileContainer}>
         <div>
           {loading ? (
