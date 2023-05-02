@@ -79,37 +79,41 @@ export const fetchUserName = async (uid) => {
 
 export const updateFollowersFeeds = async (db, uid, imageId, metadata, url) => {
   try {
-    console.log("Updating followers' feeds...") // Add this line
+    console.log("Updating followers' feeds...")
+
+    const setImageMetadata = async (imageMetadataRef, url, metadata) => {
+      await setDoc(imageMetadataRef, {
+        url,
+        title: metadata.customMetadata.title,
+        description: metadata.customMetadata.description,
+        owner: metadata.customMetadata.owner,
+      })
+    }
 
     // Get the followers of the user who uploaded the image
-    const followersSnapshot = await getDocs(
-      query(collection(db, 'Followers', uid, 'userFollowers'))
-    )
+    const followersDocRef = doc(db, 'Followers', uid)
+    const followersDoc = await getDoc(followersDocRef)
 
     // Check if the user has any followers
-    if (followersSnapshot.empty) {
+    if (
+      !followersDoc.exists() ||
+      !followersDoc.data().followers ||
+      followersDoc.data().followers.length === 0
+    ) {
       console.log('The user has no followers.')
       return
     }
 
+    const followersArray = followersDoc.data().followers
+
     // Update the feed of each follower
     const promises = []
-    followersSnapshot.forEach((followerDoc) => {
-      const followerId = followerDoc.id
+    followersArray.forEach((followerId) => {
       const feedRef = doc(db, 'Feeds', followerId)
       const imageMetadataRef = doc(db, 'ImageMetadata', imageId)
       console.log(`Updating feed for follower: ${followerId}`)
 
-      const setImageMetadata = async (url) => {
-        await setDoc(imageMetadataRef, {
-          url,
-          title: metadata.customMetadata.title,
-          description: metadata.customMetadata.description,
-          owner: metadata.customMetadata.owner,
-        })
-      }
-
-      setImageMetadata(url)
+      setImageMetadata(imageMetadataRef, url, metadata)
 
       const promise = setDoc(
         feedRef,
@@ -124,7 +128,7 @@ export const updateFollowersFeeds = async (db, uid, imageId, metadata, url) => {
 
     // Wait for all updates to complete
     await Promise.all(promises)
-    console.log(`Updated feed for ${followersSnapshot.size} followers`)
+    console.log(`Updated feed for ${followersArray.length} followers`)
   } catch (error) {
     console.log("Error updating followers' feeds:", error)
   }

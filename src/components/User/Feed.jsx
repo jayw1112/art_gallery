@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { AuthContext } from '../../source/auth-context'
 import { db } from '../../firebase'
-import { doc, onSnapshot, getDoc } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import Spinner from '../UI/Spinner'
 import ErrorBoundary from '../Error/ErrorBoundary'
 import ImageCard from '../GalleryUI/ImageCard'
@@ -13,34 +13,31 @@ function Feed() {
   const { currentUser } = useContext(AuthContext)
 
   useEffect(() => {
-    if (currentUser) {
+    const fetchImages = async () => {
       const feedRef = doc(db, 'Feeds', currentUser.uid)
-
-      const unsubscribe = onSnapshot(feedRef, async (feedDoc) => {
-        if (feedDoc.exists()) {
-          const feedData = feedDoc.data()
-          if (feedData.images) {
-            const imageDocs = await Promise.all(
-              feedData.images.map((imageId) =>
-                getDoc(doc(db, 'ImageMetadata', imageId))
-              )
+      const feedDoc = await getDoc(feedRef)
+      if (feedDoc.exists()) {
+        const feedData = feedDoc.data()
+        if (feedData.images) {
+          const imageDocs = await Promise.all(
+            feedData.images.map((imageId) =>
+              getDoc(doc(db, 'ImageMetadata', imageId))
             )
+          )
 
-            const fetchedImages = imageDocs.map((imageDoc) => ({
-              ...imageDoc.data(),
-              id: imageDoc.id,
-            }))
-            setImages(fetchedImages)
-          }
-          setLoading(false)
-        } else {
-          console.log('Feed not found')
-          setLoading(false)
+          const fetchedImages = imageDocs.map((imageDoc) => ({
+            ...imageDoc.data(),
+            id: imageDoc.id,
+          }))
+          setImages(fetchedImages)
         }
-      })
-
-      return () => unsubscribe()
+        setLoading(false)
+      } else {
+        console.log('Feed not found')
+        setLoading(false)
+      }
     }
+    fetchImages()
   }, [currentUser])
 
   return (
@@ -49,11 +46,15 @@ function Feed() {
         <Spinner />
       ) : (
         images.map((image) => (
-          <ErrorBoundary fallback={<p>Error Displaying Image.</p>} key={image}>
+          <ErrorBoundary
+            fallback={<p>Error Displaying Image.</p>}
+            key={image.id}
+          >
             <ImageCard
-              image={image}
+              image={image.url}
               imageId={image.id}
-              // imageId={imageId}
+              title={image.title}
+              description={image.description}
             />
           </ErrorBoundary>
         ))
