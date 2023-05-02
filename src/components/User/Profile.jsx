@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react'
-import { db, storage } from '../../firebase'
+import { db, storage, followersRef, followingRef } from '../../firebase'
 import {
   listAll,
   ref,
@@ -26,6 +26,8 @@ function Profile() {
   const [selectedImage, setSelectedImage] = useState(null)
   const [displayName, setDisplayName] = useState()
   const { uid } = useParams()
+  const [followersCount, setFollowersCount] = useState(0)
+  const [followingCount, setFollowingCount] = useState(0)
 
   const fetchImages = async () => {
     const userStorageRef = getUserStorageRef(storage, uid)
@@ -64,6 +66,7 @@ function Profile() {
     // if (currentUser?.uid) {
     fetchImages()
     fetchUserData(uid)
+    fetchFollowData(uid)
     // }
   }, [currentUser, uid])
 
@@ -108,6 +111,34 @@ function Profile() {
     }
   }
 
+  const fetchFollowData = async (uid) => {
+    const followersDocRef = doc(followersRef, uid)
+    const followingDocRef = doc(followingRef, uid)
+
+    try {
+      const [followersDoc, followingDoc] = await Promise.all([
+        getDoc(followersDocRef),
+        getDoc(followingDocRef),
+      ])
+
+      if (followersDoc.exists()) {
+        const followersData = followersDoc.data()
+        setFollowersCount(followersData.followers.length)
+      } else {
+        setFollowersCount(0)
+      }
+
+      if (followingDoc.exists()) {
+        const followingData = followingDoc.data()
+        setFollowingCount(followingData.following.length)
+      } else {
+        setFollowingCount(0)
+      }
+    } catch (error) {
+      console.log('Error fetching follow data:', error)
+    }
+  }
+
   return (
     <>
       <h2 className={classes.title}>
@@ -120,6 +151,10 @@ function Profile() {
       {currentUser.uid !== uid && (
         <FollowButton currentUser={currentUser} userId={uid} />
       )}
+      <h3 className={classes.followInfo}>
+        {`Following: ${followingCount} | Followers: ${followersCount}`}
+      </h3>
+
       <div className={classes.profileContainer}>
         <div>
           {loading ? (

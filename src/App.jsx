@@ -10,6 +10,7 @@ import { AuthProvider } from './source/auth-context'
 import PrivateRoute from './components/Login/PrivateRoute'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import Profile from './components/User/Profile'
+import FollowingFeed from './pages/FollowingFeed'
 
 const auth = getAuth()
 onAuthStateChanged(auth, (user) => {
@@ -50,6 +51,7 @@ const router = createBrowserRouter([
         path: `/profile/:uid`,
         element: <Profile />,
       },
+      { path: 'feed', element: <FollowingFeed /> },
     ],
   },
 ])

@@ -1,5 +1,13 @@
 import { ref } from 'firebase/storage'
-import { collection, doc, setDoc, getDoc } from 'firebase/firestore'
+import {
+  collection,
+  doc,
+  setDoc,
+  getDoc,
+  query,
+  getDocs,
+  arrayUnion,
+} from 'firebase/firestore'
 import { db } from '../firebase'
 
 export const getUserStorageRef = (storage, uid) => {
@@ -19,6 +27,13 @@ export const storeUserData = async (firestore, user, displayName) => {
       uid: user.uid,
       // Add any other information you want to store
     })
+
+    const feedRef = doc(collection(firestore, 'Feeds'), user.uid)
+
+    await setDoc(feedRef, {
+      images: [],
+    })
+
     console.log('User data stored successfully!')
   } catch (error) {
     console.log('Error storing user data:', error)
@@ -59,5 +74,58 @@ export const fetchUserName = async (uid) => {
   } catch (error) {
     console.log('Error fetching user data:', error)
     return null
+  }
+}
+
+export const updateFollowersFeeds = async (db, uid, imageId, metadata, url) => {
+  try {
+    console.log("Updating followers' feeds...") // Add this line
+
+    // Get the followers of the user who uploaded the image
+    const followersSnapshot = await getDocs(
+      query(collection(db, 'Followers', uid, 'userFollowers'))
+    )
+
+    // Check if the user has any followers
+    if (followersSnapshot.empty) {
+      console.log('The user has no followers.')
+      return
+    }
+
+    // Update the feed of each follower
+    const promises = []
+    followersSnapshot.forEach((followerDoc) => {
+      const followerId = followerDoc.id
+      const feedRef = doc(db, 'Feeds', followerId)
+      const imageMetadataRef = doc(db, 'ImageMetadata', imageId)
+      console.log(`Updating feed for follower: ${followerId}`)
+
+      const setImageMetadata = async (url) => {
+        await setDoc(imageMetadataRef, {
+          url,
+          title: metadata.customMetadata.title,
+          description: metadata.customMetadata.description,
+          owner: metadata.customMetadata.owner,
+        })
+      }
+
+      setImageMetadata(url)
+
+      const promise = setDoc(
+        feedRef,
+        {
+          images: arrayUnion(imageId),
+        },
+        { merge: true }
+      )
+
+      promises.push(promise)
+    })
+
+    // Wait for all updates to complete
+    await Promise.all(promises)
+    console.log(`Updated feed for ${followersSnapshot.size} followers`)
+  } catch (error) {
+    console.log("Error updating followers' feeds:", error)
   }
 }

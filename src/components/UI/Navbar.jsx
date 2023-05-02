@@ -87,6 +87,14 @@ function Navbar() {
           ) : (
             <>
               <NavLink
+                to='feed'
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                Feed
+              </NavLink>
+              <NavLink
                 to={`/profile/${currentUser.uid}`}
                 className={({ isActive }) =>
                   isActive ? classes.active : undefined

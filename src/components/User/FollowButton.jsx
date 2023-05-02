@@ -11,7 +11,7 @@ import {
   arrayUnion,
   arrayRemove,
 } from 'firebase/firestore'
-import { followersRef, followingRef, db } from '../../firebase'
+import { followersRef, followingRef, db, feedsRef } from '../../firebase'
 import { fetchUserName } from '../../utility/firebase.utils'
 
 function FollowButton({ currentUser, userId }) {
@@ -52,8 +52,10 @@ function FollowButton({ currentUser, userId }) {
     try {
       const followersDocRef = doc(followersRef, pUId)
       const followingDocRef = doc(followingRef, uid)
+      const feedRef = doc(feedsRef, uid)
 
       if (isFollowing) {
+        // Unfollow
         await setDoc(
           followersDocRef,
           {
@@ -71,6 +73,7 @@ function FollowButton({ currentUser, userId }) {
         setIsFollowing(false)
         console.log(`User ${uid} unfollowed ${pUId}`)
       } else {
+        // Follow
         await setDoc(
           followersDocRef,
           {
@@ -85,6 +88,25 @@ function FollowButton({ currentUser, userId }) {
           },
           { merge: true }
         )
+
+        // Add the images of the user being followed to the user who is following
+        const followedUserFeedRef = doc(feedsRef, pUId)
+        const followedUserFeedDoc = await getDoc(followedUserFeedRef)
+
+        if (followedUserFeedDoc.exists()) {
+          const followedUserFeedData = followedUserFeedDoc.data()
+
+          if (followedUserFeedData.images) {
+            await setDoc(
+              feedRef,
+              {
+                images: arrayUnion(...followedUserFeedData.images),
+              },
+              { merge: true }
+            )
+          }
+        }
+
         setIsFollowing(true)
         console.log(`User ${uid} followed ${pUId}`)
       }

@@ -1,9 +1,11 @@
 import { useState, useContext } from 'react'
 import classes from './UploadForm.module.css'
 import Spinner from '../UI/Spinner'
-import { storage, storageRef, ref, uploadBytes } from '../../firebase'
+import { storage, storageRef, ref, uploadBytes, db } from '../../firebase'
 import { getUserStorageRef } from '../../utility/firebase.utils'
 import { AuthContext } from '../../source/auth-context'
+import { updateFollowersFeeds } from '../../utility/firebase.utils'
+import { getDownloadURL } from 'firebase/storage'
 
 function UploadForm() {
   const [file, setFile] = useState(null)
@@ -107,13 +109,21 @@ function UploadForm() {
       console.log('uid:', uid) // Debugging line
       const imageRef = ref(userStorageRef, `${generateUniqueId()}-${title}`)
 
-      uploadBytes(imageRef, file, metadata).then((snapshot) => {
+      uploadBytes(imageRef, file, metadata).then(async (snapshot) => {
         console.log('Uploaded Image!')
         // const progress = Math.round(
         //   (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         // )
         // setProgress(progress)
-
+        const imageId = imageRef.fullPath
+        const downloadURL = await getDownloadURL(snapshot.ref)
+        await updateFollowersFeeds(
+          db,
+          currentUser.uid,
+          imageId,
+          metadata,
+          downloadURL
+        )
         if (successTimeout) clearTimeout(successTimeout)
         setSuccess(true)
         const newTimeout = setTimeout(() => {
