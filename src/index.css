@@ -7,7 +7,9 @@
   color: var(--gray);
 
   --gray: #5a6672;
+  --gray2: #5a667241;
   --rosy: #ad858f;
+  --rosy2: #ad858f4f;
   --blush: #f2e5e4;
   --almond: #eed7be;
   --khaki: #baada0;
@@ -35,6 +37,37 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+/* customized scroll bar */
+:root::-webkit-scrollbar {
+  width: 0.5rem;
+  /* change the color of the scroll bar to gray and make it small but now invisible */
+  color: var(--gray);
+}
+
+/* customized scroll bar for WebKit-based browsers */
+:root::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+:root::-webkit-scrollbar-track {
+  /* background-color: transparent; You can change the color if you want a different track color */
+  background-color: var(
+    --rosy2
+  ); /* You can change the color if you want a different track color */
+  border-radius: 10px;
+}
+
+:root::-webkit-scrollbar-thumb {
+  background-color: var(--gray);
+  border-radius: 10px;
+}
+
+/* customized scroll bar for Firefox */
+:root {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray) transparent;
 }
 
 /* h1 {

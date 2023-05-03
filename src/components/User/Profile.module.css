@@ -1,15 +1,48 @@
 .profileContainer {
-  justify-content: center;
-  align-items: start;
+  /* justify-content: center;
+  align-items: start; */
   padding: 0.6rem;
-  /* margin: 1rem; */
   border-radius: 10px;
   background-color: var(--khaki);
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease-in-out;
-  width: 30%;
+  width: 80%;
   max-width: 100%;
   margin: 0 auto;
+  /* Make this container scrollable and only a certain height */
+  overflow-y: scroll;
+  max-height: 66vh;
+}
+
+/* customized scroll bar */
+.profileContainer::-webkit-scrollbar {
+  width: 0.5rem;
+  /* change the color of the scroll bar to gray and make it small but now invisible */
+  color: var(--gray);
+}
+
+/* customized scroll bar for WebKit-based browsers */
+.profileContainer::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.profileContainer::-webkit-scrollbar-track {
+  /* background-color: transparent; You can change the color if you want a different track color */
+  background-color: var(
+    --rosy2
+  ); /* You can change the color if you want a different track color */
+  border-radius: 10px;
+}
+
+.profileContainer::-webkit-scrollbar-thumb {
+  background-color: var(--gray);
+  border-radius: 10px;
+}
+
+/* customized scroll bar for Firefox */
+.profileContainer {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray) transparent;
 }
 
 .title {
@@ -22,16 +55,13 @@
 }
 
 .imageGrid {
-  /* display: grid;
-  grid-template-rows: 1fr 1fr;
-  grid-gap: 1rem; */
-
-  /* display: flex;
-  flex-wrap: wrap; */
-  /* justify-content: center;
-  align-items: start; */
-  margin: 1rem;
-  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2rem;
+  align-items: start;
+  margin: 2rem;
+  margin-top: -1.5rem;
+  padding: 1rem;
 }
 
 .followInfo {
