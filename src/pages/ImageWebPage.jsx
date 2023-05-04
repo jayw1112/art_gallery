@@ -7,7 +7,11 @@ function ImageWebPage() {
 
   return (
     <>
-      <ImagePage imageId={imageId} />
+      <ImagePage
+        imageId={imageId}
+        displayLink={false}
+        // disableHover={true}
+      />
     </>
   )
 }

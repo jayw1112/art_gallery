@@ -18,14 +18,23 @@ import {
 } from 'firebase/firestore'
 import { useNavigate, Link } from 'react-router-dom'
 
-function ImageCard({ image, title, description, onClick, imageId, owner }) {
+function ImageCard({
+  image,
+  title,
+  description,
+  onClick,
+  imageId,
+  owner,
+  displayLink,
+  // disableHover,
+}) {
   const { currentUser } = useContext(AuthContext)
   const [likeCount, setlikeCount] = useState(null)
   const uid = currentUser ? currentUser.uid : null
   const isFirstRender = useRef(true)
   const navigate = useNavigate()
 
-  console.log('ImageCard', imageId, owner, title, description)
+  // console.log('ImageCard', imageId, owner, title, description)
 
   const likeHandler = async (e, uid) => {
     if (!uid) {
@@ -93,10 +102,17 @@ function ImageCard({ image, title, description, onClick, imageId, owner }) {
     }
   }, [imageId])
 
+  // const imageClasses = [classes.card]
+  // if (!disableHover) {
+  //   imageClasses.push(classes.clickableImage)
+  // }
+
   return (
     <div className={classes.card}>
+      {/* <div className={`${classes.card} ${disableHover ? 'disableHover' : ''}`}> */}
       <img
         className={onClick ? classes.clickableImage : ''}
+        // className={onClick && !disableHover ? classes.clickableImage : ''}
         src={image}
         alt='image'
         onClick={onClick}
@@ -121,20 +137,22 @@ function ImageCard({ image, title, description, onClick, imageId, owner }) {
       </div>
       <p className={classes.title}>{title}</p>
       <p className={classes.description}>{description}</p>
-      <Link
-        to={{
-          pathname: `/image/${owner}/${imageId}`,
-          state: {
-            imageId: imageId,
-            owner: owner,
-            title: title,
-            description: description,
-          },
-          log: console.log('ImageCard', imageId, owner, title, description),
-        }}
-      >
-        <button className={classes.viewImage}>View Image</button>
-      </Link>
+      {displayLink && (
+        <Link
+          to={{
+            pathname: `/image/${owner}/${imageId}`,
+            state: {
+              imageId: imageId,
+              owner: owner,
+              title: title,
+              description: description,
+            },
+            // log: console.log('ImageCard', imageId, owner, title, description),
+          }}
+        >
+          <button className={classes.viewImage}>View Image</button>
+        </Link>
+      )}
     </div>
   )
 }
