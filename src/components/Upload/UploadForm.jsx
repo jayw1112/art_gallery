@@ -6,6 +6,7 @@ import { getUserStorageRef } from '../../utility/firebase.utils'
 import { AuthContext } from '../../source/auth-context'
 import { updateFollowersFeeds } from '../../utility/firebase.utils'
 import { getDownloadURL } from 'firebase/storage'
+import { doc, setDoc } from 'firebase/firestore'
 
 function UploadForm() {
   const [file, setFile] = useState(null)
@@ -20,6 +21,25 @@ function UploadForm() {
   const { currentUser } = useContext(AuthContext)
 
   const uid = currentUser ? currentUser.uid : null
+
+  const storeImageMetadata = async (imageId, metadata, downloadURL) => {
+    const metadataRef = doc(db, 'ImageMetaData', imageId)
+    await setDoc(metadataRef, {
+      ...metadata,
+      url: downloadURL, // store the URL in Firestore
+    })
+
+    // Create a document in the 'users' collection
+    const userDocRef = doc(db, 'users', currentUser.uid) // Replace 'currentUser.uid' with the appropriate user ID
+    await setDoc(
+      userDocRef,
+      {
+        // Add any fields you want to store for the user document
+        uid: currentUser.uid, // Replace 'currentUser.uid' with the appropriate user ID
+      },
+      { merge: true }
+    ) // Use the 'merge' option to avoid overwriting existing data
+  }
 
   const handleFileButtonClick = (e) => {
     e.preventDefault()
@@ -99,6 +119,7 @@ function UploadForm() {
         title: title,
         description: description,
         owner: currentUser.uid, // the user ID of the uploader
+        // url: imageURL,
       },
     }
 
@@ -115,8 +136,27 @@ function UploadForm() {
         //   (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         // )
         // setProgress(progress)
+
         const imageId = imageRef.fullPath
+        // const downloadURL = await getDownloadURL(snapshot.ref)
+        // await updateFollowersFeeds(
+        //   db,
+        //   currentUser.uid,
+        //   imageId,
+        //   metadata,
+        //   downloadURL
+        // )
+
         const downloadURL = await getDownloadURL(snapshot.ref)
+        await storeImageMetadata(
+          imageId,
+          {
+            title: metadata.customMetadata.title,
+            description: metadata.customMetadata.description,
+            path: imageRef.fullPath,
+          },
+          downloadURL
+        )
         await updateFollowersFeeds(
           db,
           currentUser.uid,
@@ -124,6 +164,7 @@ function UploadForm() {
           metadata,
           downloadURL
         )
+
         if (successTimeout) clearTimeout(successTimeout)
         setSuccess(true)
         const newTimeout = setTimeout(() => {

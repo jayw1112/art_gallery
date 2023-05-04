@@ -10,9 +10,14 @@
   --gray2: #5a667241;
   --rosy: #ad858f;
   --rosy2: #ad858f4f;
+  --rosy3: #f7d8e0;
   --blush: #f2e5e4;
+  --blush2: #f1eaea;
+  --blush3: #f2e5e48a;
   --almond: #eed7be;
-  --khaki: #baada0;
+  /* --khaki: #baada0; */ /* original khaki */
+  /* --khaki: #e2ddd7; */
+  --khaki: #ece3d8;
 
   /* background: rgb(186, 173, 160);
   background: linear-gradient(
@@ -25,8 +30,8 @@
     to right,
     var(--gray),
     var(--blush),
-    var(--almond),
-    var(--khaki)
+    var(--blush2),
+    var(--rosy3)
   );
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 

@@ -6,7 +6,7 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-import { storeUserData } from '../utility/firebase.utils'
+import createUserDocument, { storeUserData } from '../utility/firebase.utils'
 import { db } from '../firebase'
 
 function Signup() {
@@ -16,10 +16,15 @@ function Signup() {
   const handleSignup = (email, password, username) => {
     const auth = getAuth()
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user
-        storeUserData(db, user, username)
+
+        // storeUserData(db, user, username)
+
+        // Call createUserDocument instead of storeUserData
+        await createUserDocument(user)
+
         console.log(user, 'Signed Up')
         updateProfile(auth.currentUser, {
           displayName: username,

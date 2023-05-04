@@ -3,7 +3,7 @@
   align-items: start; */
   padding: 0.6rem;
   border-radius: 10px;
-  background-color: var(--khaki);
+  background-color: var(--gray2);
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
   transition: all 0.3s ease-in-out;
   width: 80%;

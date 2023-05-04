@@ -2,6 +2,7 @@ import { useState } from 'react'
 import AuthForm from '../components/Login/AuthForm'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import createUserDocument from '../utility/firebase.utils'
 
 function Login() {
   //   const [loggedIn, setLoggedIn] = useState(true)
@@ -11,9 +12,13 @@ function Login() {
   const handleLogin = (email, password) => {
     const auth = getAuth()
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user
+
+        // Call createUserDocument to ensure the user document is created
+        await createUserDocument(user)
+
         console.log(user, 'Logged In')
         navigate('/')
         // ...

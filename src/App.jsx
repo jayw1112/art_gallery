@@ -11,6 +11,7 @@ import PrivateRoute from './components/Login/PrivateRoute'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import Profile from './components/User/Profile'
 import FollowingFeed from './pages/FollowingFeed'
+import ImageWebPage from './pages/ImageWebPage'
 
 const auth = getAuth()
 onAuthStateChanged(auth, (user) => {
@@ -52,6 +53,7 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       { path: 'feed', element: <FollowingFeed /> },
+      { path: 'image/:ownerId/:imageId', element: <ImageWebPage /> },
     ],
   },
 ])

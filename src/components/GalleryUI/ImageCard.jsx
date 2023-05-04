@@ -16,12 +16,16 @@ import {
   collection,
   onSnapshot,
 } from 'firebase/firestore'
+import { useNavigate, Link } from 'react-router-dom'
 
-function ImageCard({ image, title, description, onClick, imageId }) {
+function ImageCard({ image, title, description, onClick, imageId, owner }) {
   const { currentUser } = useContext(AuthContext)
   const [likeCount, setlikeCount] = useState(null)
   const uid = currentUser ? currentUser.uid : null
   const isFirstRender = useRef(true)
+  const navigate = useNavigate()
+
+  console.log('ImageCard', imageId, owner, title, description)
 
   const likeHandler = async (e, uid) => {
     if (!uid) {
@@ -47,6 +51,13 @@ function ImageCard({ image, title, description, onClick, imageId }) {
     } catch (error) {
       console.log('Error Liking/Unliking Image', error)
     }
+  }
+
+  // create a share handler that shares url to the image
+
+  const shareHandler = async (e) => {
+    e.stopPropagation()
+    navigate(`/image/${imageId}`)
   }
 
   // const likeCounter = async () => {
@@ -101,10 +112,29 @@ function ImageCard({ image, title, description, onClick, imageId }) {
         {likeCount > 0 ? (
           <p className={classes.likeCount}>{likeCount}</p>
         ) : null}
-        <img className={classes.buttonIcon} src={share_} alt='Share' />
+        <img
+          className={classes.buttonIcon}
+          src={share_}
+          alt='Share'
+          onClick={shareHandler}
+        />
       </div>
       <p className={classes.title}>{title}</p>
       <p className={classes.description}>{description}</p>
+      <Link
+        to={{
+          pathname: `/image/${owner}/${imageId}`,
+          state: {
+            imageId: imageId,
+            owner: owner,
+            title: title,
+            description: description,
+          },
+          log: console.log('ImageCard', imageId, owner, title, description),
+        }}
+      >
+        <button className={classes.viewImage}>View Image</button>
+      </Link>
     </div>
   )
 }

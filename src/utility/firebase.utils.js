@@ -77,6 +77,23 @@ export const fetchUserName = async (uid) => {
   }
 }
 
+export const fetchUser = async (uid) => {
+  const userDocRef = doc(db, 'users', uid)
+  try {
+    const userDoc = await getDoc(userDocRef)
+    if (userDoc.exists()) {
+      const userData = userDoc.data()
+      return { displayName: userData.displayName, userId: userData.uid }
+    } else {
+      console.log('User not found')
+      return null
+    }
+  } catch (error) {
+    console.log('Error fetching user data:', error)
+    return null
+  }
+}
+
 export const updateFollowersFeeds = async (db, uid, imageId, metadata, url) => {
   try {
     console.log("Updating followers' feeds...")
@@ -133,3 +150,31 @@ export const updateFollowersFeeds = async (db, uid, imageId, metadata, url) => {
     console.log("Error updating followers' feeds:", error)
   }
 }
+
+const createUserDocument = async (user) => {
+  if (!user) return
+
+  const userRef = doc(db, `users/${user.uid}`)
+  const snapshot = await getDoc(userRef)
+
+  if (!snapshot.exists()) {
+    const { displayName, email, photoURL } = user
+    const createdAt = new Date()
+
+    try {
+      await setDoc(userRef, {
+        displayName,
+        email,
+        photoURL,
+        createdAt,
+        // Add any additional fields you'd like to store for each user
+      })
+    } catch (error) {
+      console.error('Error creating user document', error)
+    }
+  }
+
+  return userRef
+}
+
+export default createUserDocument

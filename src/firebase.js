@@ -33,6 +33,8 @@ const followingRef = collection(db, 'Following')
 const followersRef = collection(db, 'Followers')
 const feedsRef = collection(db, 'Feeds')
 const ImageMetadata = collection(db, 'ImageMetadata')
+const imageData = collection(db, 'ImageData')
+const imageDataUsers = collection(db, 'ImageData', 'users', 'uid')
 
 export {
   storage,
@@ -48,4 +50,6 @@ export {
   followersRef,
   feedsRef,
   ImageMetadata,
+  imageData,
+  imageDataUsers,
 }

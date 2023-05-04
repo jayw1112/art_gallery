@@ -36,6 +36,7 @@ function Profile() {
       imageList.items.map(async (item) => {
         const url = await getDownloadURL(item)
         const metadata = await getMetadata(item)
+        console.log(metadata)
         return {
           url,
           metadata,
@@ -44,6 +45,7 @@ function Profile() {
     )
     setImages(fetchedImages)
     setLoading(false)
+    console.log(fetchedImages)
   }
 
   const fetchUserData = async (uid) => {
@@ -169,6 +171,7 @@ function Profile() {
                     title={image.metadata.customMetadata.title}
                     description={image.metadata.customMetadata.description}
                     imageId={image.metadata.name}
+                    owner={image.metadata.customMetadata.owner}
                     onClick={
                       currentUser &&
                       currentUser.uid === image.metadata.customMetadata.owner
