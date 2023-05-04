@@ -15,7 +15,7 @@ import classes from './Profile.module.css'
 import Spinner from '../UI/Spinner'
 import ImageModal from '../UI/ImageModal'
 import { useParams } from 'react-router-dom'
-import { getDoc, doc } from 'firebase/firestore'
+import { getDoc, doc, updateDoc } from 'firebase/firestore'
 import FollowButton from './FollowButton'
 
 function Profile() {
@@ -96,6 +96,17 @@ function Profile() {
     try {
       await updateMetadata(imageRef, newMetadata)
       console.log('Metadata updated successfully!')
+
+      // Update metadata in Firestore
+      const imageId = image.metadata.name
+      const ownerId = currentUser.uid
+      const imageDocRef = doc(db, 'ImageMetadata', 'users', ownerId, imageId)
+
+      await updateDoc(imageDocRef, {
+        title: newTitle,
+        description: newDescription,
+      })
+      console.log('Firestore metadata updated successfully!')
     } catch (error) {
       console.log('Error updating metadata:', error)
     }

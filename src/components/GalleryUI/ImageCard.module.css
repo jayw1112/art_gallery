@@ -79,3 +79,20 @@
 .buttonIcon:hover {
   background-color: var(--rosy);
 }
+
+.likeCount {
+  /* font-size: 1.1rem; */
+  font-weight: bold;
+  margin: 0.5rem auto;
+  color: var(--gray);
+  text-shadow: 0 0 10px var(--rosy);
+}
+
+.viewImage {
+  background-color: var(--rosy);
+  padding: 0.3rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  scale: 0.9;
+}

@@ -5,6 +5,7 @@ import { db, imageDataUsers, storage } from '../../firebase'
 import ImageCard from '../GalleryUI/ImageCard'
 import { useLocation, useParams } from 'react-router-dom'
 import classes from './ImagePage.module.css'
+import Spinner from '../UI/Spinner'
 
 function ImagePage({ displayLink }) {
   const { imageId, ownerId } = useParams()
@@ -12,7 +13,7 @@ function ImagePage({ displayLink }) {
   const imageDetails = location.state || {}
   const { owner = '', title = '', description = '' } = imageDetails
   // console.log('imageId:', imageId, 'ownerId:', ownerId)
-  console.log('owner:', owner, 'title:', title, 'description:', description)
+  // console.log('owner:', owner, 'title:', title, 'description:', description)
   //   console.log('state:', state)
   // console.log('location:', location)
   //   console.log('owner:', owner)
@@ -23,16 +24,18 @@ function ImagePage({ displayLink }) {
     description: '',
     owner: '',
   })
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const fetchImageData = async () => {
+      setIsLoading(true)
       if (imageId) {
         try {
           const docRef = doc(db, 'ImageMetadata', 'users', ownerId, imageId)
-          console.log('docRef:', docRef) // debugging
+          // console.log('docRef:', docRef) // debugging
 
           const imageDoc = await getDoc(docRef)
-          console.log('imageDoc:', imageDoc)
+          // console.log('imageDoc:', imageDoc)
 
           if (imageDoc.exists()) {
             const data = imageDoc.data()
@@ -52,23 +55,28 @@ function ImagePage({ displayLink }) {
           console.log('Error fetching image data:', error)
         }
       }
+      setIsLoading(false) // Move this line inside the async function
     }
 
     fetchImageData()
   }, [imageId])
 
   return (
-    <div className={classes.imageContainer}>
-      <ImageCard
-        image={imageData.image}
-        title={imageData.title}
-        description={imageData.description}
-        imageId={imageId}
-        owner={imageData.owner}
-        displayLink={displayLink}
-        // disableHover={true}
-      />
-    </div>
+    <>
+      {isLoading && <Spinner />}
+      {!isLoading && (
+        <div className={classes.imageContainer}>
+          <ImageCard
+            image={imageData.image}
+            title={imageData.title}
+            description={imageData.description}
+            imageId={imageId}
+            owner={imageData.owner}
+            displayLink={displayLink}
+          />
+        </div>
+      )}
+    </>
   )
 }
 
