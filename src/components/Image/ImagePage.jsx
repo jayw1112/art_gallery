@@ -27,6 +27,11 @@ function ImagePage({ displayLink }) {
     owner: '',
   })
   const [isLoading, setIsLoading] = useState(false)
+  // const [commentsRefreshKey, setCommentsRefreshKey] = useState(0)
+
+  // const refreshComments = () => {
+  //   setCommentsRefreshKey((prevKey) => prevKey + 1)
+  // }
 
   useEffect(() => {
     const fetchImageData = async () => {
@@ -76,8 +81,14 @@ function ImagePage({ displayLink }) {
             owner={imageData.owner}
             displayLink={displayLink}
           />
-          <Comments imageId={imageId} />
-          <AddComment imageId={imageId} />
+          <Comments
+            imageId={imageId}
+            // refreshKey={commentsRefreshKey}
+          />
+          <AddComment
+            imageId={imageId}
+            // onCommentAdded={refreshComments}
+          />
         </div>
       )}
     </>

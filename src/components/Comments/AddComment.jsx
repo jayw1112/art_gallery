@@ -6,6 +6,7 @@ import classes from './AddComment.module.css'
 import { AuthContext } from '../../source/auth-context'
 
 function AddComment() {
+  // { onCommentAdded }
   const { imageId } = useParams()
   const { currentUser } = useContext(AuthContext)
   const [comment, setComment] = useState('')
@@ -33,6 +34,7 @@ function AddComment() {
     })
 
     setComment('')
+    // onCommentAdded()
     console.log('Comment added successfully')
 
     try {
