@@ -35,6 +35,7 @@ const feedsRef = collection(db, 'Feeds')
 const ImageMetadata = collection(db, 'ImageMetadata')
 const imageData = collection(db, 'ImageData')
 const imageDataUsers = collection(db, 'ImageData', 'users', 'uid')
+const commentRef = collection(db, 'Comments')
 
 export {
   storage,
@@ -52,4 +53,5 @@ export {
   ImageMetadata,
   imageData,
   imageDataUsers,
+  commentRef,
 }

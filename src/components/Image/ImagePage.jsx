@@ -6,6 +6,8 @@ import ImageCard from '../GalleryUI/ImageCard'
 import { useLocation, useParams } from 'react-router-dom'
 import classes from './ImagePage.module.css'
 import Spinner from '../UI/Spinner'
+import Comments from '../Comments/Comments'
+import AddComment from '../Comments/AddComment'
 
 function ImagePage({ displayLink }) {
   const { imageId, ownerId } = useParams()
@@ -74,6 +76,8 @@ function ImagePage({ displayLink }) {
             owner={imageData.owner}
             displayLink={displayLink}
           />
+          <Comments imageId={imageId} />
+          <AddComment imageId={imageId} />
         </div>
       )}
     </>
