@@ -14,6 +14,7 @@ import classes from './Comments.module.css'
 function Comments() {
   const { imageId } = useParams()
   const [comments, setComments] = useState([])
+  const [sortOrder, setSortOrder] = useState('desc')
   // console.log('imageId:', imageId)
 
   useEffect(() => {
@@ -22,7 +23,7 @@ function Comments() {
         const commentsQuery = query(
           collection(db, 'Comments', imageId, 'Comment'),
           where('imageId', '==', imageId),
-          orderBy('timestamp', 'desc')
+          orderBy('timestamp', sortOrder)
         )
 
         const unsubscribe = onSnapshot(commentsQuery, (querySnapshot) => {
@@ -40,16 +41,28 @@ function Comments() {
     }
 
     fetchComments()
-  }, [imageId])
+  }, [imageId, sortOrder])
+
+  const toggleSortOrder = () => {
+    setSortOrder((prevSortOrder) => (prevSortOrder === 'desc' ? 'asc' : 'desc'))
+  }
 
   return (
     <div className={classes.commentContainer}>
+      <button onClick={toggleSortOrder}>
+        Sort Order ({sortOrder === 'desc' ? 'Descending' : 'Ascending'})
+      </button>
       <ul>
         {comments.map((comment) => {
           return (
             <li key={comment.id} className={classes.comment}>
               <p>{comment.text}</p>
               <p>{comment.username}</p>
+              <p>
+                {comment.timestamp
+                  ? comment.timestamp.toDate().toLocaleString()
+                  : 'No timestamp available'}
+              </p>{' '}
             </li>
           )
         })}
