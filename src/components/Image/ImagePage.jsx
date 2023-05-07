@@ -29,6 +29,8 @@ function ImagePage({ displayLink }) {
     owner: '',
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [isCommentsLoading, setIsCommentsLoading] = useState(false)
+
   // const [commentsRefreshKey, setCommentsRefreshKey] = useState(0)
 
   // const refreshComments = () => {
@@ -85,11 +87,18 @@ function ImagePage({ displayLink }) {
           />
         </div>
       )}
+      {isCommentsLoading && <Spinner />}
       {currentUser && (
         <div className={classes.commentSection}>
-          <AddComment imageId={imageId} />
+          <AddComment
+            imageId={imageId}
+            setIsCommentsLoading={setIsCommentsLoading}
+          />
           <div className={classes.commentContainer}>
-            <Comments imageId={imageId} />
+            <Comments
+              imageId={imageId}
+              setIsCommentsLoading={setIsCommentsLoading}
+            />
           </div>
         </div>
       )}

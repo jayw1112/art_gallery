@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { db } from '../../firebase'
 import {
   collection,
@@ -16,7 +16,7 @@ import {
 import classes from './Comments.module.css'
 import { AuthContext } from '../../source/auth-context'
 
-function Comments() {
+function Comments({ setIsCommentsLoading }) {
   // { refreshKey }
   const { imageId } = useParams()
   const { currentUser } = useContext(AuthContext)
@@ -28,6 +28,7 @@ function Comments() {
   // console.log('imageId:', imageId)
 
   useEffect(() => {
+    setIsCommentsLoading(true)
     const fetchComments = async () => {
       try {
         const commentsQuery = query(
@@ -41,6 +42,7 @@ function Comments() {
             return { ...doc.data(), id: doc.id }
           })
           setComments(fetchedComments)
+          setIsCommentsLoading(false)
         })
 
         // return () => unsubscribe()
@@ -116,7 +118,9 @@ function Comments() {
             <li key={comment.id} className={classes.comment}>
               <div className={classes.commentContent}>
                 <p className={classes.text}>{comment.text}</p>
-                <p className={classes.name}>{comment.username}</p>
+                <Link to={`/profile/${comment.userId}`}>
+                  <p className={classes.name}>{comment.username}</p>
+                </Link>
               </div>
               <small className={classes.date}>
                 {comment.editedTimestamp

@@ -5,7 +5,7 @@ import { db } from '../../firebase'
 import classes from './AddComment.module.css'
 import { AuthContext } from '../../source/auth-context'
 
-function AddComment() {
+function AddComment({ setIsCommentsLoading }) {
   // { onCommentAdded }
   const { imageId } = useParams()
   const { currentUser } = useContext(AuthContext)
@@ -16,6 +16,7 @@ function AddComment() {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    setIsCommentsLoading(true)
     if (!imageId) {
       console.error('imageId is undefined')
       return
@@ -35,6 +36,7 @@ function AddComment() {
 
     setComment('')
     // onCommentAdded()
+    setIsCommentsLoading(false)
     console.log('Comment added successfully')
 
     try {
