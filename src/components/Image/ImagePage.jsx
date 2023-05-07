@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { doc, getDoc } from 'firebase/firestore'
 import { ref, getDownloadURL } from 'firebase/storage'
 import { db, imageDataUsers, storage } from '../../firebase'
@@ -8,9 +8,11 @@ import classes from './ImagePage.module.css'
 import Spinner from '../UI/Spinner'
 import Comments from '../Comments/Comments'
 import AddComment from '../Comments/AddComment'
+import { AuthContext } from '../../source/auth-context'
 
 function ImagePage({ displayLink }) {
   const { imageId, ownerId } = useParams()
+  const { currentUser } = useContext(AuthContext)
   const location = useLocation()
   const imageDetails = location.state || {}
   const { owner = '', title = '', description = '' } = imageDetails
@@ -81,18 +83,17 @@ function ImagePage({ displayLink }) {
             owner={imageData.owner}
             displayLink={displayLink}
           />
-          <Comments
-            imageId={imageId}
-            // refreshKey={commentsRefreshKey}
-          />
-          <AddComment
-            imageId={imageId}
-            // onCommentAdded={refreshComments}
-          />
+        </div>
+      )}
+      {currentUser && (
+        <div className={classes.commentSection}>
+          <AddComment imageId={imageId} />
+          <div className={classes.commentContainer}>
+            <Comments imageId={imageId} />
+          </div>
         </div>
       )}
     </>
   )
 }
-
 export default ImagePage

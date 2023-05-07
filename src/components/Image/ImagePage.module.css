@@ -1,6 +1,8 @@
 .imageContainer {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
+  display: grid;
+  grid-template-columns: 1fr;
   align-items: center;
   justify-content: center;
   margin: 0 auto;
@@ -19,5 +21,42 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 10px;
+}
+
+.commentSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 75%;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.commentContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 50vh; /* Adjust this value to set the desired height */
+  width: 75%;
+}
+
+.commentContainer::-webkit-scrollbar {
+  width: 0.5rem;
+  /* custom scrollbar like the scrollbar in index.css */
+  background-color: var(--gray2);
+  border-radius: 10px;
+}
+
+.commentContainer::-webkit-scrollbar-thumb {
+  background-color: var(--rosy);
+  border-radius: 10px;
+}
+
+.commentContainer::-webkit-scrollbar-track {
+  background-color: var(--gray2);
   border-radius: 10px;
 }

@@ -45,13 +45,14 @@ function AddComment() {
 
   return (
     <div className={classes.newCommentBox}>
-      <h3>Add Comment</h3>
+      {/* <h4>Add Comment</h4> */}
       <form onSubmit={handleSubmit}>
         <input
           type='text'
           placeholder='Add a comment...'
           value={comment}
           onChange={(e) => setComment(e.target.value)}
+          maxLength={100}
         />
         <button type='submit'>Post</button>
       </form>

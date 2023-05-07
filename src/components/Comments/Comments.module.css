@@ -1,0 +1,100 @@
+.commentContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* overflow-y: scroll;
+  overflow-x: auto; */
+  max-height: 75%;
+  width: 75%;
+}
+
+.comment {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem 0.5rem;
+  /* width: 100%; */
+  list-style-type: none;
+  /* margin: 0 auto; */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  /* width: fit-content; */
+  align-self: center;
+  display: flex;
+  /* flex-direction: column;
+  align-items: center;
+  justify-content: center; */
+  width: 90%;
+  /* min-height: 7rem; 
+  max-height: 7rem;  */
+}
+
+.commentContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1; /* This will make the text content take up the remaining space */
+  padding-right: 1rem; /* Add some space between the text and buttons */
+  /* min-width: 65%; */
+}
+
+.comment button {
+  margin-left: 0.3rem;
+  padding: 0.4rem 0.5rem;
+  /* font-size: 0.8rem;  */
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: var(--rosy);
+  cursor: pointer;
+}
+
+.comment button:hover {
+  background-color: var(--rosy-hover);
+  color: var(--gray);
+  outline: var(--gray);
+}
+
+.comment input {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: var(--rosy);
+  /* give input it's own line and center it */
+  display: block;
+  margin: 0 auto;
+}
+
+.date {
+  font-size: 0.82rem;
+  color: #5a66727a;
+  display: block;
+  margin: 1rem;
+  /* put the date at the bottom of the commentBox */
+  align-self: flex-end;
+}
+
+.name {
+  font-size: 1rem;
+  /* font-weight: bold; */
+  color: var(--gray);
+  display: block;
+  margin: 1rem;
+  text-align: start;
+  font-weight: 100;
+}
+
+.text {
+  font-size: 1.2rem;
+  color: var(--gray);
+  display: block;
+  margin: 1rem;
+  font-weight: 600;
+  /* text-align: start; */
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

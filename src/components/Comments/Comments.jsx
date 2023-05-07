@@ -114,9 +114,11 @@ function Comments() {
         {comments.map((comment) => {
           return (
             <li key={comment.id} className={classes.comment}>
-              <p>{comment.text}</p>
-              <p>{comment.username}</p>
-              <p>
+              <div className={classes.commentContent}>
+                <p className={classes.text}>{comment.text}</p>
+                <p className={classes.name}>{comment.username}</p>
+              </div>
+              <small className={classes.date}>
                 {comment.editedTimestamp
                   ? `Edited at: ${comment.editedTimestamp
                       .toDate()
@@ -124,7 +126,7 @@ function Comments() {
                   : comment.timestamp
                   ? `Created at: ${comment.timestamp.toDate().toLocaleString()}`
                   : 'No timestamp available'}
-              </p>
+              </small>
               {currentUser && currentUser.uid === comment.userId && (
                 <>
                   {editingCommentId === comment.id ? (
@@ -134,6 +136,7 @@ function Comments() {
                           type='text'
                           value={editedComment}
                           onChange={(e) => setEditedComment(e.target.value)}
+                          maxLength={100}
                         />
                         <button onClick={() => saveEditedComment(comment.id)}>
                           Save
@@ -144,17 +147,19 @@ function Comments() {
                       </form>
                     </>
                   ) : (
-                    <button
-                      onClick={() =>
-                        toggleEditComment(comment.id, comment.text)
-                      }
-                    >
-                      Edit
-                    </button>
+                    <div className={classes.buttonContainer}>
+                      <button
+                        onClick={() =>
+                          toggleEditComment(comment.id, comment.text)
+                        }
+                      >
+                        Edit
+                      </button>
+                      <button onClick={() => deleteComment(comment.id)}>
+                        Delete
+                      </button>
+                    </div>
                   )}
-                  <button onClick={() => deleteComment(comment.id)}>
-                    Delete
-                  </button>
                 </>
               )}
             </li>

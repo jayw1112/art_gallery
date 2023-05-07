@@ -55,6 +55,7 @@ function Feed() {
               imageId={image.id}
               title={image.title}
               description={image.description}
+              displayLink={true}
             />
           </ErrorBoundary>
         ))

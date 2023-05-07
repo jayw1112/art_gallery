@@ -1,0 +1,61 @@
+.newCommentBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin: 2rem; */
+  padding: 1rem;
+  padding-top: 2rem;
+  border: 1px solid var(--gray2);
+  /* background-color: var(--gray2); */
+  margin: 0 auto;
+  margin-top: 2rem;
+  margin-bottom: 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.newCommentBox textarea {
+  width: 100%;
+  height: 100px;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--gray);
+  background-color: var(--gray2);
+  /* color: white; */
+}
+
+.newCommentBox button {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--gray);
+  background-color: var(--rosy);
+  cursor: pointer;
+}
+
+.newCommentBox button:hover {
+  background-color: var(--rosy-hover);
+  color: var(--gray);
+  outline: var(--gray);
+}
+
+.newCommentBox input {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--gray);
+  background-color: var(--gray2);
+  /* give input it's own line and center it */
+  display: block;
+  margin: 0 auto;
+  color: var(--gray);
+}
+
+.newCommentBox h4 {
+  margin: 0;
+  padding-bottom: 2rem;
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--gray);
+}
