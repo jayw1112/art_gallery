@@ -12,6 +12,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import Profile from './components/User/Profile'
 import FollowingFeed from './pages/FollowingFeed'
 import ImageWebPage from './pages/ImageWebPage'
+import SearchPage from './pages/SearchPage'
 
 const auth = getAuth()
 onAuthStateChanged(auth, (user) => {
@@ -54,6 +55,7 @@ const router = createBrowserRouter([
       },
       { path: 'feed', element: <FollowingFeed /> },
       { path: 'image/:ownerId/:imageId', element: <ImageWebPage /> },
+      { path: 'search', element: <SearchPage /> },
     ],
   },
 ])

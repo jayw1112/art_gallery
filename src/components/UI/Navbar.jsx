@@ -63,6 +63,14 @@ function Navbar() {
               Upload
             </NavLink>
           )}
+          <NavLink
+            to='/search'
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+          >
+            Search
+          </NavLink>
         </div>
         <div className={classes.rightSide}>
           {!currentUser ? (
