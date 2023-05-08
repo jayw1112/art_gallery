@@ -40,7 +40,13 @@ export const storeUserData = async (firestore, user, displayName) => {
   }
 }
 
-export const updateUserData = async (firestore, user, displayName, email) => {
+export const updateUserData = async (
+  firestore,
+  user,
+  displayName,
+  email,
+  photoURL
+) => {
   const userRef = doc(collection(firestore, 'users'), user.uid)
 
   try {
@@ -50,10 +56,12 @@ export const updateUserData = async (firestore, user, displayName, email) => {
         displayName,
         email,
         uid: user.uid,
+        photoURL,
         // Add any other information you want to update
       },
       { merge: true }
     )
+    console.log('photoURL:', photoURL)
     console.log('User data updated successfully!')
   } catch (error) {
     console.log('Error updating user data:', error)

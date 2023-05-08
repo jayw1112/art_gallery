@@ -29,6 +29,8 @@ function Profile() {
   const [followersCount, setFollowersCount] = useState(0)
   const [followingCount, setFollowingCount] = useState(0)
 
+  const [profilePicUrl, setProfilePicUrl] = useState(null)
+
   const fetchImages = async () => {
     const userStorageRef = getUserStorageRef(storage, uid)
     const imageList = await listAll(userStorageRef)
@@ -54,7 +56,11 @@ function Profile() {
       const userDoc = await getDoc(userDocRef)
       if (userDoc.exists()) {
         const userData = userDoc.data()
+        console.log('Fetched user data:', userData)
         setDisplayName(userData.displayName)
+
+        setProfilePicUrl(userData.photoURL)
+        console.log('Fetched photoURL:', userData.photoURL)
       } else {
         console.log('User not found')
         setDisplayName(null)
@@ -161,6 +167,13 @@ function Profile() {
             : 'No profile found'
           : 'Loading...'}
       </h2>
+      {profilePicUrl && (
+        <img
+          className={classes.profilePic}
+          src={profilePicUrl || 'default_profile_pic_url'}
+          alt={`${displayName}'s profile`}
+        />
+      )}
       {currentUser.uid !== uid && (
         <FollowButton currentUser={currentUser} userId={uid} />
       )}
@@ -179,14 +192,16 @@ function Profile() {
                   <ImageCard
                     key={index}
                     image={image.url}
-                    title={image.metadata.customMetadata.title}
-                    description={image.metadata.customMetadata.description}
+                    title={image.metadata.customMetadata?.title || ''}
+                    description={
+                      image.metadata.customMetadata?.description || ''
+                    }
                     imageId={image.metadata.name}
-                    owner={image.metadata.customMetadata.owner}
+                    owner={image.metadata.customMetadata?.owner || ''}
                     displayLink={true}
                     onClick={
                       currentUser &&
-                      currentUser.uid === image.metadata.customMetadata.owner
+                      currentUser.uid === image.metadata.customMetadata?.owner
                         ? () => {
                             openModal(image)
                           }

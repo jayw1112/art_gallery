@@ -42,7 +42,7 @@
   overflow-x: hidden;
   max-height: 50vh; /* Adjust this value to set the desired height */
   width: 75%;
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
 }
 
 .commentContainer::-webkit-scrollbar {

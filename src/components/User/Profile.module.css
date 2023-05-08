@@ -12,6 +12,7 @@
   /* Make this container scrollable and only a certain height */
   overflow-y: scroll;
   max-height: 66vh;
+  margin-bottom: 4rem;
 }
 
 /* customized scroll bar */
@@ -67,4 +68,12 @@
 .followInfo {
   margin-bottom: 0.8rem;
   font-weight: 500;
+}
+
+.profilePic {
+  width: 15%;
+  height: 15%;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 1rem;
 }

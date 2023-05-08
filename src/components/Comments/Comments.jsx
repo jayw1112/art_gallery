@@ -12,6 +12,7 @@ import {
   updateDoc,
   serverTimestamp,
   doc,
+  getDoc,
 } from 'firebase/firestore'
 import classes from './Comments.module.css'
 import { AuthContext } from '../../source/auth-context'
@@ -37,14 +38,19 @@ function Comments({ setIsCommentsLoading }) {
           orderBy('timestamp', sortOrder)
         )
 
-        const unsubscribe = onSnapshot(commentsQuery, (querySnapshot) => {
-          const fetchedComments = querySnapshot.docs.map((doc) => {
-            return { ...doc.data(), id: doc.id }
-          })
+        const unsubscribe = onSnapshot(commentsQuery, async (querySnapshot) => {
+          const fetchedComments = await Promise.all(
+            querySnapshot.docs.map(async (doc) => {
+              const commentData = doc.data()
+              const profilePicUrl = await fetchUserProfilePic(
+                commentData.userId
+              )
+              return { ...commentData, id: doc.id, profilePicUrl }
+            })
+          )
           setComments(fetchedComments)
           setIsCommentsLoading(false)
         })
-
         // return () => unsubscribe()
         return unsubscribe
       } catch (error) {
@@ -102,6 +108,16 @@ function Comments({ setIsCommentsLoading }) {
     saveEditedComment(commentId)
   }
 
+  const fetchUserProfilePic = async (userId) => {
+    try {
+      const userDoc = await getDoc(doc(db, 'users', userId))
+      return userDoc.data().photoURL || 'https://via.placeholder.com/150' || ''
+    } catch (error) {
+      console.error('Error fetching user profile picture: ', error)
+      return ''
+    }
+  }
+
   // refresh comments whehn a comment is added or deleted
   // useEffect(() => {
   //   setCommentsRefreshKey((prevKey) => prevKey + 1)
@@ -117,6 +133,11 @@ function Comments({ setIsCommentsLoading }) {
           return (
             <li key={comment.id} className={classes.comment}>
               <div className={classes.commentContent}>
+                <img
+                  src={comment.profilePicUrl}
+                  alt={`${comment.username}'s Profile Pic`}
+                  className={classes.commentProfilePic}
+                />
                 <p className={classes.text}>{comment.text}</p>
                 <Link to={`/profile/${comment.userId}`}>
                   <p className={classes.name}>{comment.username}</p>

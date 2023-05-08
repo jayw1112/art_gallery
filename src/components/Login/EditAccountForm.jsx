@@ -10,8 +10,10 @@ import {
 } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../source/auth-context'
-import { updateUserData } from '../../utility/firebase.utils'
-import { db } from '../../firebase'
+import { updateUserData, getUserStorageRef } from '../../utility/firebase.utils'
+import { db, storage, uploadBytes } from '../../firebase'
+// import { ref } from '../../firebase'
+import { getDownloadURL, ref } from 'firebase/storage'
 
 function EditAccountForm({ closeModal }) {
   const auth = getAuth()
@@ -23,11 +25,31 @@ function EditAccountForm({ closeModal }) {
   const [password, setPassword] = useState('')
   const [warningMessage, setWarningMessage] = useState('')
 
+  const [profilePicUrl, setProfilePicUrl] = useState(user.photoURL)
+  const [profilePicFile, setProfilePicFile] = useState(null)
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     try {
       await updateProfile(user, { displayName })
+
+      // Save profile pic to Firebase Storage
+      if (profilePicFile) {
+        const storageRef = getUserStorageRef(storage, user.uid)
+        await uploadBytes(storageRef, profilePicFile)
+        console.log('Uploaded profile pic to storage')
+        const profilePicUrl = await getDownloadURL(storageRef)
+        await updateProfile(user, { photoURL: profilePicUrl })
+        console.log('photURL:', profilePicUrl)
+
+        // Update Firestore data
+        await updateUserData(db, user, displayName, email, profilePicUrl)
+        setProfilePicUrl(profilePicUrl)
+      } else {
+        // Update Firestore data without profile picture change
+        await updateUserData(db, user, displayName, email, user.photoURL)
+      }
 
       if (email !== user.email || password) {
         // Email or password is being changed
@@ -39,7 +61,7 @@ function EditAccountForm({ closeModal }) {
         await auth.currentUser.reload()
       }
       // Update Firestore data
-      await updateUserData(db, user, displayName, email)
+      await updateUserData(db, user, displayName, email, profilePicUrl)
     } catch (error) {
       if (error.code === 'auth/requires-recent-login') {
         setWarningMessage(
@@ -85,6 +107,12 @@ function EditAccountForm({ closeModal }) {
     }
   }
 
+  const handleProfilePicChange = (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    setProfilePicFile(file)
+  }
+
   return (
     <div className={classes.formContainer}>
       <form onSubmit={handleSubmit}>
@@ -111,6 +139,15 @@ function EditAccountForm({ closeModal }) {
           id='password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+        />
+        <label htmlFor='profilePic'>Profile Picture:</label>
+        <input
+          type='file'
+          className={classes.profilePicInput}
+          name='profilePic'
+          id='profilePic'
+          accept='image/*'
+          onChange={handleProfilePicChange}
         />
         <button type='submit'>Save Changes</button>
         <button
