@@ -66,6 +66,31 @@ function ImageCard({
 
   const shareHandler = async (e) => {
     e.stopPropagation()
+    // share image url, copy to clipboard
+    const url = `${window.location.origin}/image/${owner}/${imageId}`
+    console.log('shareHandler', url)
+
+    try {
+      await navigator.clipboard.writeText(url)
+      console.log('Copied to clipboard:', url)
+    } catch (error) {
+      console.error('Error copying to clipboard:', error)
+    }
+    // navigate to the image page
+    // navigate(`/image/${owner}/${imageId}`)
+
+    const shareData = {
+      title: 'Image',
+      text: 'Check out this image',
+      url: `${window.location.origin}/image/${owner}/${imageId}`,
+    }
+
+    try {
+      await navigator.share(shareData)
+      console.log('Shared successfully')
+    } catch (err) {
+      console.log('Error sharing', err)
+    }
   }
 
   // const likeCounter = async () => {
