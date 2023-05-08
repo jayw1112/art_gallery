@@ -66,7 +66,6 @@ function ImageCard({
 
   const shareHandler = async (e) => {
     e.stopPropagation()
-    navigate(`/image/${imageId}`)
   }
 
   // const likeCounter = async () => {

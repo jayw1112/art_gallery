@@ -13,7 +13,7 @@ import { AuthContext } from '../../source/auth-context'
 import { updateUserData, getUserStorageRef } from '../../utility/firebase.utils'
 import { db, storage, uploadBytes } from '../../firebase'
 // import { ref } from '../../firebase'
-import { getDownloadURL, ref } from 'firebase/storage'
+import { getDownloadURL, ref, deleteObject } from 'firebase/storage'
 
 function EditAccountForm({ closeModal }) {
   const auth = getAuth()
@@ -110,7 +110,38 @@ function EditAccountForm({ closeModal }) {
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0]
     if (!file) return
+
+    // Check for file size (3MB = 3 * 1024 * 1024 bytes)
+    if (file.size > 3 * 1024 * 1024) {
+      setWarningMessage('Profile picture size cannot exceed 3MB.')
+      return
+    } else {
+      setWarningMessage('')
+    }
+
     setProfilePicFile(file)
+  }
+
+  // delete profile pic
+  const handleDeleteProfilePic = async () => {
+    const confirmation = window.confirm(
+      'Are you sure you want to delete your profile picture?'
+    )
+
+    if (!confirmation) {
+      return
+    }
+
+    try {
+      const storageRef = getUserStorageRef(storage, user.uid)
+      await deleteObject(storageRef)
+      await updateProfile(user, { photoURL: null })
+      setProfilePicUrl(null)
+      await updateUserData(db, user, displayName, email, null)
+      console.log('Deleted profile pic')
+    } catch (error) {
+      console.error('Error deleting profile pic:', error)
+    }
   }
 
   return (
@@ -149,6 +180,13 @@ function EditAccountForm({ closeModal }) {
           accept='image/*'
           onChange={handleProfilePicChange}
         />
+        <button
+          className={classes.deleteButton}
+          type='button'
+          onClick={handleDeleteProfilePic}
+        >
+          Remove Profile Picture
+        </button>
         <button type='submit'>Save Changes</button>
         <button
           className={classes.deleteButton}

@@ -16,6 +16,7 @@ import {
 } from 'firebase/firestore'
 import classes from './Comments.module.css'
 import { AuthContext } from '../../source/auth-context'
+import person from '../../assets/person.svg'
 
 function Comments({ setIsCommentsLoading }) {
   // { refreshKey }
@@ -111,7 +112,7 @@ function Comments({ setIsCommentsLoading }) {
   const fetchUserProfilePic = async (userId) => {
     try {
       const userDoc = await getDoc(doc(db, 'users', userId))
-      return userDoc.data().photoURL || 'https://via.placeholder.com/150' || ''
+      return userDoc.data().photoURL || person || ''
     } catch (error) {
       console.error('Error fetching user profile picture: ', error)
       return ''
