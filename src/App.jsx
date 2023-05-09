@@ -55,7 +55,14 @@ const router = createBrowserRouter([
       },
       { path: 'feed', element: <FollowingFeed /> },
       { path: 'image/:ownerId/:imageId', element: <ImageWebPage /> },
-      { path: 'search', element: <SearchPage /> },
+      {
+        path: 'search',
+        element: (
+          <PrivateRoute>
+            <SearchPage />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 ])
