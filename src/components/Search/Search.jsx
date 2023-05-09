@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import ImageCard from '../GalleryUI/ImageCard'
 import { Link } from 'react-router-dom'
 import Spinner from '../UI/Spinner'
 import {
   collection,
-  doc,
-  getDoc,
+  //   doc,
+  //   getDoc,
   getDocs,
   query,
   where,
+  //   orderBy,
+  //   startAt,
+  //   endAt,
 } from 'firebase/firestore'
-import { db } from '../../firebase'
+
+import { db, ref, storage } from '../../firebase'
 import classes from './Search.module.css'
+import { getDownloadURL, getMetadata, listAll } from 'firebase/storage'
 // Import necessary firebase functions and references
 
 function Search() {
@@ -19,6 +24,7 @@ function Search() {
   const [searchType, setSearchType] = useState('users')
   const [isLoading, setIsLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
+  const inputRef = useRef(null)
 
   useEffect(() => {
     const fetchSearchResults = async () => {
@@ -39,32 +45,58 @@ function Search() {
             querySnapshot.forEach((doc) => {
               results.push({ ...doc.data(), id: doc.id })
             })
+            setSearchResults(results)
             console.log('User search results:', results)
           } else {
-            searchCollection = collection(db, 'ImageMetadata')
-            const searchQueryTitle = query(
-              searchCollection,
-              where('title', '==', searchTerm)
-            )
-            const searchQueryDescription = query(
-              searchCollection,
-              where('description', 'array-contains', searchTerm)
-            )
-            const querySnapshotTitle = await getDocs(searchQueryTitle)
-            const querySnapshotDescription = await getDocs(
-              searchQueryDescription
-            )
-            querySnapshotTitle.forEach((doc) => {
-              results.push({ ...doc.data(), id: doc.id })
-            })
-            querySnapshotDescription.forEach((doc) => {
-              if (!results.some((result) => result.id === doc.id)) {
-                results.push({ ...doc.data(), id: doc.id })
+            // searchCollection = collection(db, 'ImageMetadata')
+            // searchQuery = query(
+            //   searchCollection,
+            //   where('title', '==', searchTerm)
+            // )
+            // const querySnapshot = await getDocs(searchQuery)
+            // querySnapshot.forEach((doc) => {
+            //   console.log('Image document data:', doc.data()) // Log the data for debugging purposes
+            //   results.push({ ...doc.data(), id: doc.id })
+            // })
+
+            const usersListRef = ref(storage, 'users')
+            const usersListRes = await listAll(usersListRef)
+            const searchPromises = usersListRes.prefixes.map(
+              async (userFolderRef) => {
+                const imagesListRes = await listAll(userFolderRef)
+                const imagePromises = imagesListRes.items.map(
+                  async (imageRef) => {
+                    const metadata = await getMetadata(imageRef)
+                    if (
+                      metadata.customMetadata &&
+                      (metadata.customMetadata.title.toLowerCase() ===
+                        searchTerm.toLowerCase() ||
+                        (searchTerm.length >= 3 &&
+                          metadata.customMetadata.description
+                            .toLowerCase()
+                            .includes(searchTerm.toLowerCase())))
+                    ) {
+                      const url = await getDownloadURL(imageRef)
+                      return {
+                        ...metadata.customMetadata,
+                        url,
+                        id: imageRef.name,
+                        ownerId: userFolderRef.name,
+                      }
+                    }
+                  }
+                )
+
+                const imagesData = await Promise.all(imagePromises)
+                return imagesData.filter((imageData) => imageData !== undefined)
               }
-            })
+            )
+
+            const results = (await Promise.all(searchPromises)).flat()
+            setSearchResults(results)
+
             console.log('Image search results:', results)
           }
-          setSearchResults(results)
         } catch (error) {
           console.log('Error fetching search results:', error)
         }
@@ -77,6 +109,9 @@ function Search() {
 
   const handleSearchTypeChange = (event) => {
     setSearchType(event.target.value)
+    setSearchTerm('') // Clear the input
+    setSearchResults([]) // Clear search results
+    inputRef.current.focus() // Focus on the input
   }
 
   const handleSearchTermChange = (event) => {
@@ -93,9 +128,11 @@ function Search() {
     <div className={classes.searchContainer}>
       <form onSubmit={handleSearch}>
         <input
+          ref={inputRef}
           type='text'
           value={searchTerm}
           onChange={handleSearchTermChange}
+          placeholder='Search'
         />
         <select value={searchType} onChange={handleSearchTypeChange}>
           <option value='users'>Users</option>
@@ -104,27 +141,51 @@ function Search() {
         <button type='submit'>Search</button>
       </form>
       {isLoading && <Spinner />}
-      {!isLoading &&
-        searchResults.map((result) => {
-          if (searchType === 'users') {
-            return (
-              <Link key={result.id} to={`/profile/${result.id}`}>
-                {result.displayName}
-              </Link>
-            )
-          } else {
-            return (
-              <ImageCard
-                key={result.id}
-                image={result.image}
-                title={result.title}
-                description={result.description}
-                imageId={result.id}
-                ownerId={result.owner}
-              />
-            )
+      {!isLoading && (
+        <div
+          className={
+            searchType === 'users'
+              ? classes.userSearchResults
+              : classes.imagesGrid
           }
-        })}
+        >
+          {searchResults.map((result) => {
+            if (searchType === 'users') {
+              return (
+                <Link
+                  className={classes.link}
+                  key={result.id}
+                  to={`/profile/${result.id}`}
+                >
+                  {result.displayName}
+                </Link>
+              )
+            } else {
+              return (
+                <div className={classes.imageContainer} key={result.id}>
+                  <ImageCard
+                    key={result.id}
+                    image={result.url}
+                    title={result.title}
+                    description={result.description}
+                    imageId={result.id}
+                    ownerId={result.ownerId}
+                    displayLink={true}
+                    className={classes.image}
+                  />
+                  <Link
+                    className={classes.link2}
+                    key={result.id}
+                    to={`/profile/${result.ownerId}`}
+                  >
+                    Go To Profile
+                  </Link>
+                </div>
+              )
+            }
+          })}
+        </div>
+      )}
     </div>
   )
 }
