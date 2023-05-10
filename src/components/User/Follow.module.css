@@ -1,0 +1,113 @@
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 0 auto;
+  margin-bottom: 3rem;
+  padding: 0.5rem;
+  width: 20%;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 1.3rem;
+  background-color: var(--gray2);
+  border-radius: 5px;
+  box-shadow: 0 0 10px var(--rosy);
+  margin: 0.8rem 0.7rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.name {
+  font-size: 1.9rem;
+  font-weight: 700;
+  flex-grow: 1;
+  text-align: center;
+  /* margin: 1rem 2rem; */
+  /* margin-left: 2rem; */
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  margin-top: -3.6rem;
+  padding: 0.5rem;
+  color: var(--gray);
+  text-shadow: 3px 6px 10px var(--rosy);
+}
+
+.profilePic {
+  width: 5.9rem;
+  height: 5.9rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--gray);
+  margin: 0 auto;
+}
+
+.link:hover {
+  color: var(--rosy);
+}
+
+.subTitle a {
+  text-decoration: none;
+  color: var(--gray);
+  font-size: 1.2rem;
+}
+
+.subTitle a:hover {
+  color: var(--rosy);
+}
+
+.subTitle {
+  margin-bottom: 0.8rem;
+  font-weight: 500;
+}
+
+.backLink {
+  display: block;
+  margin-bottom: 1rem;
+  text-decoration: none;
+  color: var(--gray);
+}
+
+.backLink:hover {
+  color: var(--rosy);
+}
+
+.scrollBox {
+  overflow-y: auto;
+  height: 85vh;
+}
+
+/* customized scroll bar */
+.scrollBox::-webkit-scrollbar {
+  width: 0.5rem;
+  /* change the color of the scroll bar to gray and make it small but now invisible */
+  color: var(--gray);
+}
+
+/* customized scroll bar for WebKit-based browsers */
+.scrollBox::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.scrollBox::-webkit-scrollbar-track {
+  /* background-color: transparent; You can change the color if you want a different track color */
+  background-color: var(
+    --rosy2
+  ); /* You can change the color if you want a different track color */
+  border-radius: 10px;
+}
+
+.scrollBox::-webkit-scrollbar-thumb {
+  background-color: var(--gray);
+  border-radius: 10px;
+}

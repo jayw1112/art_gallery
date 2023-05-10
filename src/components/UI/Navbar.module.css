@@ -23,6 +23,13 @@
   margin: 0 0.8rem;
   padding: 0.5rem;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  font-size: 1em;
+}
+
+.navbar a:hover {
+  color: var(--rosy);
+  text-shadow: 0 0 10px var(--blush);
 }
 
 .navbar h1 {

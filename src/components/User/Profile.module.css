@@ -96,3 +96,13 @@
   font-size: 1.2rem;
   margin-bottom: 1rem;
 }
+
+.followInfo a {
+  text-decoration: none;
+  color: var(--gray);
+  font-size: 1.2rem;
+}
+
+.followInfo a:hover {
+  color: var(--rosy);
+}

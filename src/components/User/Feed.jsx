@@ -28,6 +28,7 @@ function Feed() {
           const fetchedImages = imageDocs.map((imageDoc) => ({
             ...imageDoc.data(),
             id: imageDoc.id,
+            ownerId: imageDoc.data().owner,
           }))
           setImages(fetchedImages)
         }
@@ -55,6 +56,7 @@ function Feed() {
               imageId={image.id}
               title={image.title}
               description={image.description}
+              owner={image.owner}
               displayLink={true}
             />
           </ErrorBoundary>

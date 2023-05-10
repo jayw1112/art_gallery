@@ -14,7 +14,7 @@ import ImageCard from '../GalleryUI/ImageCard'
 import classes from './Profile.module.css'
 import Spinner from '../UI/Spinner'
 import ImageModal from '../UI/ImageModal'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getDoc, doc, updateDoc } from 'firebase/firestore'
 import FollowButton from './FollowButton'
 
@@ -181,9 +181,16 @@ function Profile() {
       {currentUser.uid !== uid && (
         <FollowButton currentUser={currentUser} userId={uid} />
       )}
-      <h3 className={classes.followInfo}>
+
+      {/* <h3 className={classes.followInfo}>
         {`Following: ${followingCount} | Followers: ${followersCount}`}
-      </h3>
+      </h3> */}
+
+      <div className={classes.followInfo}>
+        <Link to={`/following/${uid}`}>Following: {followingCount}</Link>
+        <span> | </span>
+        <Link to={`/followers/${uid}`}>Followers: {followersCount}</Link>
+      </div>
 
       <div className={classes.profileContainer}>
         <div>

@@ -194,3 +194,39 @@ const createUserDocument = async (user) => {
 }
 
 export default createUserDocument
+
+// Fetch Followers data
+export const fetchFollowers = async (uid) => {
+  const followersDocRef = doc(db, 'Followers', uid)
+  try {
+    const followersDoc = await getDoc(followersDocRef)
+    if (followersDoc.exists()) {
+      const followersData = followersDoc.data()
+      return followersData.followers
+    } else {
+      console.log('User not found')
+      return null
+    }
+  } catch (error) {
+    console.log('Error fetching followers data:', error)
+    return null
+  }
+}
+
+// Fetch Following data
+export const fetchFollowing = async (uid) => {
+  const followingDocRef = doc(db, 'Following', uid)
+  try {
+    const followingDoc = await getDoc(followingDocRef)
+    if (followingDoc.exists()) {
+      const followingData = followingDoc.data()
+      return followingData.following
+    } else {
+      console.log('User not found')
+      return null
+    }
+  } catch (error) {
+    console.log('Error fetching following data:', error)
+    return null
+  }
+}

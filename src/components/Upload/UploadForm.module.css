@@ -40,6 +40,7 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8); /* Adjust the vertical offset */
   transition: all 0.3s ease-in-out;
   width: 100%;
+  background-color: var(--blush2);
 }
 
 .uploadForm input {
@@ -48,8 +49,10 @@
   text-align: center;
   font-size: 1rem;
   color: var(--gray);
-  background-color: var(--khaki);
+  background-color: var(--gray2);
   text-shadow: 0 0 10px var(--rosy);
+  border-radius: 0.3rem;
+  border: none;
 }
 
 .uploadForm button {
@@ -58,8 +61,17 @@
   text-align: center;
   font-size: 1rem;
   color: var(--gray);
-  background-color: var(--khaki);
+  background-color: var(--gray2);
   text-shadow: 0 0 10px var(--rosy);
+  border-radius: 0.3rem;
+  cursor: pointer;
+  border: none;
+}
+
+.uploadForm button:hover {
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  background-color: var(--rosy2);
 }
 
 .file {

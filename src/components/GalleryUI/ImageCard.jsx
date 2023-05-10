@@ -174,7 +174,7 @@ function ImageCard({
             // log: console.log('ImageCard', imageId, owner, title, description),
           }}
         >
-          <button className={classes.viewImage}>View Image</button>
+          <button className={classes.viewImage}>Expand</button>
         </Link>
       )}
     </div>

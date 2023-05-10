@@ -90,9 +90,18 @@
 
 .viewImage {
   background-color: var(--rosy);
-  padding: 0.3rem;
+  padding: 0.5rem;
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  scale: 0.9;
+  letter-spacing: 0.06rem;
+  /* font-weight: 300; */
+  /* scale: 0.9; */
+  /* font-size: 0.9rem; */
+}
+
+.viewImage:hover {
+  background-color: var(--gray);
+  transition: background-color 0.3s ease;
+  scale: 1.05;
 }

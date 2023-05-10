@@ -14,6 +14,8 @@ import FollowingFeed from './pages/FollowingFeed'
 import ImageWebPage from './pages/ImageWebPage'
 import SearchPage from './pages/SearchPage'
 import AboutPage from './pages/AboutPage'
+import FollowingPage from './pages/FollowingPage'
+import FollowersPage from './pages/FollowersPage'
 
 const auth = getAuth()
 onAuthStateChanged(auth, (user) => {
@@ -65,6 +67,8 @@ const router = createBrowserRouter([
         ),
       },
       { path: 'about', element: <AboutPage /> },
+      { path: 'following/:uid', element: <FollowingPage /> },
+      { path: 'followers/:uid', element: <FollowersPage /> },
     ],
   },
 ])
