@@ -46,7 +46,7 @@ function Navbar() {
             Home
           </NavLink>
           <NavLink
-            to='/'
+            to='about'
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }

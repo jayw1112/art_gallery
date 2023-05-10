@@ -13,6 +13,7 @@ import Profile from './components/User/Profile'
 import FollowingFeed from './pages/FollowingFeed'
 import ImageWebPage from './pages/ImageWebPage'
 import SearchPage from './pages/SearchPage'
+import AboutPage from './pages/AboutPage'
 
 const auth = getAuth()
 onAuthStateChanged(auth, (user) => {
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      { path: 'about', element: <AboutPage /> },
     ],
   },
 ])
