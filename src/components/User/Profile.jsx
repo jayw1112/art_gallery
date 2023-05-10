@@ -30,6 +30,7 @@ function Profile() {
   const [followingCount, setFollowingCount] = useState(0)
 
   const [profilePicUrl, setProfilePicUrl] = useState(null)
+  const [bio, setBio] = useState('')
 
   const fetchImages = async () => {
     const userStorageRef = getUserStorageRef(storage, uid)
@@ -61,6 +62,9 @@ function Profile() {
 
         setProfilePicUrl(userData.photoURL)
         console.log('Fetched photoURL:', userData.photoURL)
+
+        setBio(userData.profileInfo)
+        console.log('Fetched profileInfo:', userData.profileInfo)
       } else {
         console.log('User not found')
         setDisplayName(null)
@@ -222,6 +226,12 @@ function Profile() {
           fetchImages={fetchImages}
         />
       </div>
+      {bio && (
+        <div className={classes.bio}>
+          <h3>{displayName}</h3>
+          <p>{bio}</p>
+        </div>
+      )}
     </>
   )
 }

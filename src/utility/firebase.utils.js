@@ -45,7 +45,8 @@ export const updateUserData = async (
   user,
   displayName,
   email,
-  photoURL
+  photoURL,
+  profileInfo
 ) => {
   const userRef = doc(collection(firestore, 'users'), user.uid)
 
@@ -57,6 +58,7 @@ export const updateUserData = async (
         email,
         uid: user.uid,
         photoURL,
+        profileInfo,
         // Add any other information you want to update
       },
       { merge: true }
@@ -91,7 +93,13 @@ export const fetchUser = async (uid) => {
     const userDoc = await getDoc(userDocRef)
     if (userDoc.exists()) {
       const userData = userDoc.data()
-      return { displayName: userData.displayName, userId: userData.uid }
+      return {
+        displayName: userData.displayName,
+        userId: userData.uid,
+        profileInfo: userData.profileInfo,
+        photoURL: userData.photoURL,
+        email: userData.email,
+      }
     } else {
       console.log('User not found')
       return null

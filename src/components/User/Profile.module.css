@@ -77,3 +77,22 @@
   border-radius: 50%;
   margin-bottom: 1rem;
 }
+
+.bio {
+  font-size: 1.2rem;
+  margin: 0 auto;
+  margin-bottom: 3rem;
+  padding: 0.5rem;
+  width: 50%;
+}
+
+.bio h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.8rem;
+  font-style: oblique;
+}
+
+.bio p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}

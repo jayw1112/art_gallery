@@ -1,5 +1,5 @@
 // src/components/EditAccountForm/EditAccountForm.js
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import classes from './EditAccountForm.module.css'
 import {
   getAuth,
@@ -10,7 +10,11 @@ import {
 } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../source/auth-context'
-import { updateUserData, getUserStorageRef } from '../../utility/firebase.utils'
+import {
+  updateUserData,
+  getUserStorageRef,
+  fetchUser,
+} from '../../utility/firebase.utils'
 import { db, storage, uploadBytes } from '../../firebase'
 // import { ref } from '../../firebase'
 import { getDownloadURL, ref, deleteObject } from 'firebase/storage'
@@ -19,14 +23,17 @@ function EditAccountForm({ closeModal }) {
   const auth = getAuth()
   const user = auth.currentUser
   const { setUser } = useContext(AuthContext)
-
+  // General
   const [displayName, setDisplayName] = useState(user.displayName)
   const [email, setEmail] = useState(user.email)
   const [password, setPassword] = useState('')
   const [warningMessage, setWarningMessage] = useState('')
-
+  // Profile picture
   const [profilePicUrl, setProfilePicUrl] = useState(user.photoURL)
   const [profilePicFile, setProfilePicFile] = useState(null)
+  // Bio
+  const [showTextArea, setShowTextArea] = useState(false)
+  const [profileInfo, setProfileInfo] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -61,7 +68,14 @@ function EditAccountForm({ closeModal }) {
         await auth.currentUser.reload()
       }
       // Update Firestore data
-      await updateUserData(db, user, displayName, email, profilePicUrl)
+      await updateUserData(
+        db,
+        user,
+        displayName,
+        email,
+        profilePicUrl,
+        profileInfo
+      )
     } catch (error) {
       if (error.code === 'auth/requires-recent-login') {
         setWarningMessage(
@@ -144,6 +158,43 @@ function EditAccountForm({ closeModal }) {
     }
   }
 
+  const handleBioChange = (event) => {
+    setProfileInfo(event.target.value)
+  }
+
+  const saveBioChange = async (e) => {
+    e.preventDefault()
+    // if (profileInfo.length > 200) {
+    //   setWarningMessage('Bio cannot exceed 200 characters.')
+    //   return
+    // }
+    try {
+      await updateUserData(
+        db,
+        user,
+        displayName,
+        email,
+        profilePicUrl,
+        profileInfo
+      )
+      console.log('Updated bio')
+    } catch (error) {
+      console.error('Error updating bio:', error)
+    }
+
+    setShowTextArea(false)
+  }
+
+  useEffect(() => {
+    const fetchProfileInfo = async () => {
+      const userData = await fetchUser(user.uid)
+      if (userData.profileInfo) {
+        setProfileInfo(userData.profileInfo)
+      }
+    }
+    fetchProfileInfo()
+  }, [user.uid])
+
   return (
     <div className={classes.formContainer}>
       <form onSubmit={handleSubmit}>
@@ -180,6 +231,24 @@ function EditAccountForm({ closeModal }) {
           accept='image/*'
           onChange={handleProfilePicChange}
         />
+        <button type='button' onClick={() => setShowTextArea(!showTextArea)}>
+          Edit Bio
+        </button>
+        {showTextArea && (
+          <div>
+            <textarea
+              className={classes.textArea}
+              value={profileInfo}
+              onChange={handleBioChange}
+              type='text'
+              placeholder='Enter your profile information...'
+              rows='7'
+              cols='37'
+              maxLength={200}
+            />
+            <button onClick={saveBioChange}>Save Bio</button>
+          </div>
+        )}
         <button
           className={classes.deleteButton}
           type='button'
