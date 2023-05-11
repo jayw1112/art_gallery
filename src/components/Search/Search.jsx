@@ -169,14 +169,14 @@ function Search() {
                     title={result.title}
                     description={result.description}
                     imageId={result.id}
-                    ownerId={result.ownerId}
+                    owner={result.owner}
                     displayLink={true}
                     className={classes.image}
                   />
                   <Link
                     className={classes.link2}
                     key={result.id}
-                    to={`/profile/${result.ownerId}`}
+                    to={`/profile/${result.owner}`}
                   >
                     Go To Profile
                   </Link>
