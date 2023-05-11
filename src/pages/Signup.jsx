@@ -19,16 +19,17 @@ function Signup() {
       .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user
+        console.log(user)
 
         // storeUserData(db, user, username)
 
         // Call createUserDocument instead of storeUserData
-        await createUserDocument(user)
 
         console.log(user, 'Signed Up')
         updateProfile(auth.currentUser, {
           displayName: username,
         })
+        await createUserDocument(user, username)
           .then(() => {
             // Profile updated!
             console.log('Welcome', username)

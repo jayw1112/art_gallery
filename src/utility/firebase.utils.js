@@ -167,7 +167,7 @@ export const updateFollowersFeeds = async (db, uid, imageId, metadata, url) => {
   }
 }
 
-const createUserDocument = async (user) => {
+const createUserDocument = async (user, username) => {
   if (!user) return
 
   const userRef = doc(db, `users/${user.uid}`)
@@ -179,10 +179,12 @@ const createUserDocument = async (user) => {
 
     try {
       await setDoc(userRef, {
-        displayName,
+        displayName: username,
         email,
         photoURL,
         createdAt,
+        profileInfo: '',
+        uid: user.uid,
         // Add any additional fields you'd like to store for each user
       })
     } catch (error) {
