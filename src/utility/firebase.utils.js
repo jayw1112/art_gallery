@@ -17,6 +17,22 @@ export const getUserStorageRef = (storage, uid) => {
   return null
 }
 
+export function getPicStorageRef(storage, userId, fileName) {
+  return ref(storage, `profilePics/${userId}/${fileName}`)
+}
+
+export const getImageStorageRef = (storage, uid, imageId, ownerId) => {
+  if (ownerId && imageId) {
+    return ref(storage, `users/${ownerId}/${imageId}`)
+  }
+  if (uid && imageId) {
+    return ref(storage, `users/${uid}/${imageId}`)
+  }
+  // Throw an error or return null if both uid and ownerId are missing
+  console.error('Both uid and ownerId are missing.')
+  return null
+}
+
 export const storeUserData = async (firestore, user, displayName) => {
   const userRef = doc(collection(firestore, 'users'), user.uid)
 

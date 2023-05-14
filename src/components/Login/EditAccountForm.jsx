@@ -7,6 +7,8 @@ import {
   updatePassword,
   updateProfile,
   deleteUser,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../source/auth-context'
@@ -14,6 +16,7 @@ import {
   updateUserData,
   getUserStorageRef,
   fetchUser,
+  getPicStorageRef,
 } from '../../utility/firebase.utils'
 import { db, storage, uploadBytes } from '../../firebase'
 // import { ref } from '../../firebase'
@@ -22,7 +25,7 @@ import { getDownloadURL, ref, deleteObject } from 'firebase/storage'
 function EditAccountForm({ closeModal }) {
   const auth = getAuth()
   const user = auth.currentUser
-  const { setUser } = useContext(AuthContext)
+  const { setCurrentUser } = useContext(AuthContext)
   // General
   const [displayName, setDisplayName] = useState(user.displayName)
   const [email, setEmail] = useState(user.email)
@@ -35,67 +38,87 @@ function EditAccountForm({ closeModal }) {
   const [showTextArea, setShowTextArea] = useState(false)
   const [profileInfo, setProfileInfo] = useState('')
 
+  const navigate = useNavigate()
+
+  async function reauthenticate(email, password) {
+    const user = auth.currentUser
+    const credential = EmailAuthProvider.credential(email, password)
+
+    try {
+      await reauthenticateWithCredential(user, credential)
+    } catch (error) {
+      console.log('Error reauthenticating:', error)
+      throw error
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    try {
-      await updateProfile(user, { displayName })
+    const fileName = `${user.uid}_Profile_Picture`
+    let newProfilePicUrl = profilePicUrl // keep the old profile picture URL by default
 
-      // Save profile pic to Firebase Storage
-      if (profilePicFile) {
-        const storageRef = getUserStorageRef(storage, user.uid)
-        await uploadBytes(storageRef, profilePicFile)
-        console.log('Uploaded profile pic to storage')
-        const profilePicUrl = await getDownloadURL(storageRef)
-        await updateProfile(user, { photoURL: profilePicUrl })
-        console.log('photURL:', profilePicUrl)
-
-        // Update Firestore data
-        await updateUserData(db, user, displayName, email, profilePicUrl)
-        setProfilePicUrl(profilePicUrl)
-      } else {
-        // Update Firestore data without profile picture change
-        await updateUserData(db, user, displayName, email, user.photoURL)
+    // Only delete old profile pic from Firebase Storage if a new one is uploaded
+    if (profilePicFile) {
+      // Delete old profile pic from Firebase Storage if one exists
+      const oldStorageRef = getPicStorageRef(storage, user.uid, fileName)
+      try {
+        await deleteObject(oldStorageRef)
+        console.log('Deleted old profile pic from storage')
+      } catch (error) {
+        // Ignoring the error if no old profile pic found
       }
 
-      if (email !== user.email || password) {
-        // Email or password is being changed
+      // Save new profile pic to Firebase Storage
+      const newStorageRef = getPicStorageRef(storage, user.uid, fileName)
+      await uploadBytes(newStorageRef, profilePicFile)
+      console.log('Uploaded new profile pic to storage')
+      newProfilePicUrl = await getDownloadURL(newStorageRef)
+      await updateProfile(user, { photoURL: newProfilePicUrl })
+    }
+
+    // Update profile data
+    await updateProfile(user, { displayName })
+    setDisplayName(user.displayName)
+    setProfilePicUrl(newProfilePicUrl)
+    setCurrentUser({ ...user, displayName, photoURL: newProfilePicUrl }) // Update context here
+
+    if (email !== user.email || password) {
+      // Email or password is being changed
+      try {
+        await reauthenticate(email, password)
         await updateEmail(user, email)
         if (password) {
           await updatePassword(user, password)
         }
-
         await auth.currentUser.reload()
-      }
-      // Update Firestore data
-      await updateUserData(
-        db,
-        user,
-        displayName,
-        email,
-        profilePicUrl,
-        profileInfo
-      )
-    } catch (error) {
-      if (error.code === 'auth/requires-recent-login') {
-        setWarningMessage(
-          'Please re-authenticate to update your account information.'
-        )
-        return
-      } else {
-        setWarningMessage('An error occurred. Please try again.')
-        return
+        // setCurrentUser(auth.currentUser)
+        setCurrentUser({ ...auth.currentUser, email }) // Update context here
+      } catch (error) {
+        if (error.code === 'auth/requires-recent-login') {
+          setWarningMessage('Please log in again before making these changes.')
+        } else {
+          console.error('Error updating email or password:', error)
+        }
       }
     }
 
-    setDisplayName(auth.currentUser)
+    // Update Firestore data
+    await updateUserData(
+      db,
+      user,
+      displayName,
+      email,
+      newProfilePicUrl,
+      profileInfo || ''
+    )
+
+    setCurrentUser(auth.currentUser)
     closeModal()
     setWarningMessage('')
-    await auth.currentUser.reload()
-    window.location.reload()
+    // await auth.currentUser.reload()
+    // navigate(`profile/${user.uid}`)
   }
-
-  const navigate = useNavigate()
 
   const handleDeleteAccount = async () => {
     const confirmation = window.confirm(
@@ -123,20 +146,21 @@ function EditAccountForm({ closeModal }) {
 
   const handleProfilePicChange = (e) => {
     const file = e.target.files[0]
-    if (!file) return
+    if (!file) {
+      setWarningMessage('No file selected.')
+      return
+    }
 
     // Check for file size (3MB = 3 * 1024 * 1024 bytes)
     if (file.size > 3 * 1024 * 1024) {
       setWarningMessage('Profile picture size cannot exceed 3MB.')
       return
-    } else {
-      setWarningMessage('')
     }
 
+    setWarningMessage('')
     setProfilePicFile(file)
   }
 
-  // delete profile pic
   const handleDeleteProfilePic = async () => {
     const confirmation = window.confirm(
       'Are you sure you want to delete your profile picture?'
@@ -147,27 +171,32 @@ function EditAccountForm({ closeModal }) {
     }
 
     try {
-      const storageRef = getUserStorageRef(storage, user.uid)
-      await deleteObject(storageRef)
+      const fileName = `${user.uid}_Profile_Picture`
+      const oldStorageRef = getPicStorageRef(storage, user.uid, fileName)
+      await deleteObject(oldStorageRef)
+
       await updateProfile(user, { photoURL: null })
+      await updateUserData(db, user, displayName, email, null, fileName)
       setProfilePicUrl(null)
-      await updateUserData(db, user, displayName, email, null)
-      console.log('Deleted profile pic')
     } catch (error) {
       console.error('Error deleting profile pic:', error)
+      setWarningMessage('An error occurred while deleting the profile picture.')
     }
   }
 
   const handleBioChange = (event) => {
-    setProfileInfo(event.target.value)
+    const newBio = event.target.value
+    if (newBio.length >= 200) {
+      setWarningMessage('Bio cannot exceed 200 characters.')
+    } else {
+      setWarningMessage('')
+    }
+    setProfileInfo(newBio)
   }
 
   const saveBioChange = async (e) => {
     e.preventDefault()
-    // if (profileInfo.length > 200) {
-    //   setWarningMessage('Bio cannot exceed 200 characters.')
-    //   return
-    // }
+
     try {
       await updateUserData(
         db,
@@ -177,9 +206,9 @@ function EditAccountForm({ closeModal }) {
         profilePicUrl,
         profileInfo
       )
-      console.log('Updated bio')
     } catch (error) {
       console.error('Error updating bio:', error)
+      setWarningMessage('An error occurred while updating the bio.')
     }
 
     setShowTextArea(false)
@@ -240,6 +269,7 @@ function EditAccountForm({ closeModal }) {
               className={classes.textArea}
               value={profileInfo}
               onChange={handleBioChange}
+              onKeyUp={handleBioChange}
               type='text'
               placeholder='Enter your profile information...'
               rows='7'

@@ -110,7 +110,7 @@ function Profile() {
       // Update metadata in Firestore
       const imageId = image.metadata.name
       const ownerId = currentUser.uid
-      const imageDocRef = doc(db, 'ImageMetadata', 'users', ownerId, imageId)
+      const imageDocRef = doc(db, 'ImageMetaData', 'users', ownerId, imageId)
 
       await updateDoc(imageDocRef, {
         title: newTitle,

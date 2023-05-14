@@ -36,6 +36,9 @@ function UploadForm() {
       {
         // Add any fields you want to store for the user document
         uid: currentUser.uid, // Replace 'currentUser.uid' with the appropriate user ID
+        displayName: currentUser.displayName,
+        // photoURL: currentUser.photoURL,
+        email: currentUser.email,
       },
       { merge: true }
     ) // Use the 'merge' option to avoid overwriting existing data
@@ -119,6 +122,7 @@ function UploadForm() {
         title: title,
         description: description,
         owner: currentUser.uid, // the user ID of the uploader
+
         // url: imageURL,
       },
     }
@@ -154,6 +158,8 @@ function UploadForm() {
             title: metadata.customMetadata.title,
             description: metadata.customMetadata.description,
             path: imageRef.fullPath,
+            owner: metadata.customMetadata.owner,
+            timeCreated: metadata.timeCreated,
           },
           downloadURL
         )

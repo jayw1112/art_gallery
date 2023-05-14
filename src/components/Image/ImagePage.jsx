@@ -9,6 +9,7 @@ import Spinner from '../UI/Spinner'
 import Comments from '../Comments/Comments'
 import AddComment from '../Comments/AddComment'
 import { AuthContext } from '../../source/auth-context'
+import { getImageStorageRef } from '../../utility/firebase.utils'
 
 function ImagePage({ displayLink }) {
   const { imageId, ownerId } = useParams()
@@ -37,40 +38,88 @@ function ImagePage({ displayLink }) {
   //   setCommentsRefreshKey((prevKey) => prevKey + 1)
   // }
 
+  // useEffect(() => {
+  //   const fetchImageData = async () => {
+  //     setIsLoading(true)
+  //     if (imageId) {
+  //       try {
+  //         const docRef = doc(db, 'ImageMetaData', 'users', ownerId, imageId)
+  //         console.log('docRef:', docRef) // debugging
+
+  //         const imageDoc = await getDoc(docRef)
+  //         console.log('imageDoc:', imageDoc)
+
+  //         if (imageDoc.exists()) {
+  //           const data = imageDoc.data()
+  //           console.log('imageData:', data) // debugging
+
+  //           const imageUrl = await getDownloadURL(
+  //             ref(storage, `ImageMetaData/${data.path}`)
+  //           )
+  //           setImageData({
+  //             image: imageUrl,
+  //             title: data.title,
+  //             description: data.description,
+  //             owner: data.owner,
+  //           })
+  //         } else {
+  //           console.log('Image document does not exist') // debugging
+  //         }
+  //       } catch (error) {
+  //         console.log('Error fetching image data:', error)
+  //       }
+  //     }
+  //     setIsLoading(false) // Move this line inside the async function
+  //   }
+
+  //   fetchImageData()
+  // }, [imageId])
+
   useEffect(() => {
-    const fetchImageData = async () => {
+    const fetchImage = async () => {
       setIsLoading(true)
-      if (imageId) {
-        try {
-          const docRef = doc(db, 'ImageMetadata', 'users', ownerId, imageId)
-          // console.log('docRef:', docRef) // debugging
+      try {
+        console.log('imageId:', imageId) // debugging
+        console.log('ownerId:', ownerId) // debugging
+
+        const imageRef = getImageStorageRef(
+          storage,
+          currentUser.uid,
+          imageId,
+          ownerId
+        )
+        if (imageRef) {
+          const imageUrl = await getDownloadURL(imageRef)
+
+          const docRef = doc(db, 'ImageMetaData', 'users', ownerId, imageId)
+          console.log('docRef:', docRef) // debugging
 
           const imageDoc = await getDoc(docRef)
-          // console.log('imageDoc:', imageDoc)
+          console.log('imageDoc:', imageDoc) // debugging
 
           if (imageDoc.exists()) {
             const data = imageDoc.data()
-            console.log('imageData:', data) // debugging
-
-            const imageUrl = await getDownloadURL(ref(storage, data.url))
             setImageData({
               image: imageUrl,
               title: data.title,
               description: data.description,
               owner: data.owner,
             })
+            console.log('imageData:', imageData)
           } else {
-            console.log('Image document does not exist') // debugging
+            console.error('Image document does not exist')
           }
-        } catch (error) {
-          console.log('Error fetching image data:', error)
+        } else {
+          console.error('Image reference is null')
         }
+      } catch (error) {
+        console.error('Error fetching image:', error)
       }
-      setIsLoading(false) // Move this line inside the async function
+      setIsLoading(false)
     }
 
-    fetchImageData()
-  }, [imageId])
+    fetchImage()
+  }, [currentUser.uid, imageId, ownerId])
 
   return (
     <>

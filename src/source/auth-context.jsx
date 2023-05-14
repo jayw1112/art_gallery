@@ -17,8 +17,13 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe()
   }, [])
 
+  const value = {
+    currentUser,
+    setCurrentUser,
+  }
+
   return (
-    <AuthContext.Provider value={{ currentUser }}>
+    <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
   )
