@@ -122,7 +122,6 @@ function UploadForm() {
         title: title,
         description: description,
         owner: currentUser.uid, // the user ID of the uploader
-
         // url: imageURL,
       },
     }

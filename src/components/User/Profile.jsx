@@ -15,7 +15,7 @@ import classes from './Profile.module.css'
 import Spinner from '../UI/Spinner'
 import ImageModal from '../UI/ImageModal'
 import { Link, useParams } from 'react-router-dom'
-import { getDoc, doc, updateDoc } from 'firebase/firestore'
+import { getDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import FollowButton from './FollowButton'
 
 function Profile() {
@@ -129,8 +129,15 @@ function Profile() {
     try {
       await deleteObject(imageRef)
       console.log('Image deleted successfully!')
+
+      // Delete the image metadata
+      const imageId = image.metadata.name
+      const ownerId = currentUser.uid
+      const imageDocRef = doc(db, 'ImageMetaData', 'users', ownerId, imageId)
+      await deleteDoc(imageDocRef)
+      console.log('Firestore metadata deleted successfully!')
     } catch (error) {
-      console.log('Error deleting image:', error)
+      console.log('Error deleting image or its metadata:', error)
     }
   }
 

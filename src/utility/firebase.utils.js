@@ -132,10 +132,13 @@ export const updateFollowersFeeds = async (db, uid, imageId, metadata, url) => {
 
     const setImageMetadata = async (imageMetadataRef, url, metadata) => {
       await setDoc(imageMetadataRef, {
+        ...metadata.customMetadata,
         url,
-        title: metadata.customMetadata.title,
-        description: metadata.customMetadata.description,
-        owner: metadata.customMetadata.owner,
+        // title: metadata.customMetadata.title,
+        // description: metadata.customMetadata.description,
+        // owner: metadata.customMetadata.owner,
+        // createdAt: metadata.customMetadata.createdAt,
+        path: metadata.customMetadata.path,
       })
     }
 
@@ -159,7 +162,7 @@ export const updateFollowersFeeds = async (db, uid, imageId, metadata, url) => {
     const promises = []
     followersArray.forEach((followerId) => {
       const feedRef = doc(db, 'Feeds', followerId)
-      const imageMetadataRef = doc(db, 'ImageMetadata', imageId)
+      const imageMetadataRef = doc(db, 'ImageMetaData', imageId)
       console.log(`Updating feed for follower: ${followerId}`)
 
       setImageMetadata(imageMetadataRef, url, metadata)
