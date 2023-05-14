@@ -181,8 +181,12 @@ function Profile() {
       {profilePicUrl && (
         <img
           className={classes.profilePic}
-          src={profilePicUrl || 'default_profile_pic_url'}
+          src={profilePicUrl}
           alt={`${displayName}'s profile`}
+          onError={(e) => {
+            e.target.onerror = null // prevent infinite loop if default image also fails to load
+            e.target.src = 'default_profile_pic_url'
+          }}
         />
       )}
       {currentUser.uid !== uid && (

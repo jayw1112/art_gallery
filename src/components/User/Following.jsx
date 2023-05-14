@@ -17,7 +17,7 @@ function Followers() {
       setLoading(true)
       const fetchedFollowing = await fetchFollowing(uid)
 
-      if (fetchedFollowing.length === 0) {
+      if (!fetchedFollowing || fetchedFollowing.length === 0) {
         setLoading(false)
         return
       }

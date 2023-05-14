@@ -186,6 +186,8 @@ export const updateFollowersFeeds = async (db, uid, imageId, metadata, url) => {
   }
 }
 
+// Create User Document
+
 const createUserDocument = async (user, username) => {
   if (!user) return
 
@@ -193,7 +195,8 @@ const createUserDocument = async (user, username) => {
   const snapshot = await getDoc(userRef)
 
   if (!snapshot.exists()) {
-    const { displayName, email, photoURL } = user
+    const { email, photoURL } = user
+    const displayName = username || user.displayName
     const createdAt = new Date()
 
     try {

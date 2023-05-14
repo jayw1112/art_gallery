@@ -133,6 +133,19 @@ function EditAccountForm({ closeModal }) {
       await deleteUser(user)
       closeModal()
       navigate('/')
+
+      // Delete user data from Firestore
+      const userRef = ref(db, `users/${user.uid}`)
+      await deleteObject(userRef)
+
+      // Delete user profile pic from Firebase Storage if one exists
+      const fileName = `${user.uid}_Profile_Picture`
+      const storageRef = getPicStorageRef(storage, user.uid, fileName)
+      try {
+        await deleteObject(storageRef)
+      } catch (error) {
+        // Ignoring the error if no profile pic found
+      }
     } catch (error) {
       if (error.code === 'auth/requires-recent-login') {
         setWarningMessage(
