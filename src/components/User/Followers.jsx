@@ -12,6 +12,7 @@ function Followers() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false)
 
+  console.log('Followers.jsx: uid:', uid)
   useEffect(() => {
     const fetchFollowersData = async () => {
       setLoading(true)
@@ -25,7 +26,12 @@ function Followers() {
       const fetchedUsers = await Promise.all(
         fetchedFollowers.map((followerId) => fetchUser(followerId))
       )
-      setFollowers(fetchedUsers)
+      // Filter out any null values
+      const validUsers = fetchedUsers.filter((user) => user !== null)
+
+      setFollowers(validUsers)
+
+      // setFollowers(fetchedUsers)
       setLoading(false)
     }
     fetchFollowersData()
@@ -54,18 +60,24 @@ function Followers() {
         <Spinner />
       ) : followers.length > 0 ? (
         <div className={classes.scrollBox}>
-          {followers.map((follower, index) => (
-            <div key={index} className={classes.listItem}>
-              <Link className={classes.link} to={`/profile/${follower.userId}`}>
-                <img
-                  className={classes.profilePic}
-                  src={follower.photoURL || person}
-                  alt={follower.displayName}
-                />
-                <p className={classes.name}>{follower.displayName}</p>
-              </Link>
-            </div>
-          ))}
+          {followers.map(
+            (follower, index) =>
+              follower && ( // added this check to prevent error when follower is null
+                <div key={index} className={classes.listItem}>
+                  <Link
+                    className={classes.link}
+                    to={`/profile/${follower.userId}`}
+                  >
+                    <img
+                      className={classes.profilePic}
+                      src={follower.photoURL || person}
+                      alt={follower.displayName}
+                    />
+                    <p className={classes.name}>{follower.displayName}</p>
+                  </Link>
+                </div>
+              )
+          )}
         </div>
       ) : (
         <h2 className={classes.empty}>No Followers Found</h2>

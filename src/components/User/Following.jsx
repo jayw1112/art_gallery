@@ -6,7 +6,7 @@ import classes from './Follow.module.css'
 import person from '../../assets/person.svg'
 import Spinner from '../UI/Spinner'
 
-function Followers() {
+function Following() {
   const { uid } = useParams()
   const [following, setFollowing] = useState([])
   const [user, setUser] = useState(null)
@@ -25,6 +25,11 @@ function Followers() {
       const fetchedUsers = await Promise.all(
         fetchedFollowing.map((followerId) => fetchUser(followerId))
       )
+      // Filter out any null values
+      // const validUsers = fetchedUsers.filter((user) => user !== null)
+
+      // setFollowers(validUsers)
+
       setFollowing(fetchedUsers)
       setLoading(false)
     }
@@ -55,18 +60,34 @@ function Followers() {
         <Spinner />
       ) : following.length > 0 ? (
         <div className={classes.scrollBox}>
-          {following.map((follow, index) => (
-            <div key={index} className={classes.listItem}>
-              <Link className={classes.link} to={`/profile/${follow.userId}`}>
-                <img
-                  className={classes.profilePic}
-                  src={follow.photoURL || person}
-                  alt={follow.displayName}
-                />
-                <p className={classes.name}>{follow.displayName}</p>
-              </Link>
-            </div>
-          ))}
+          {following.map(
+            (follow, index) =>
+              follow && (
+                <div key={index} className={classes.listItem}>
+                  <Link
+                    className={classes.link}
+                    to={`/profile/${follow.userId}`}
+                  >
+                    <img
+                      className={classes.profilePic}
+                      src={follow.photoURL || person}
+                      alt={follow.displayName}
+                    />
+
+                    {/* <img
+                      className={classes.profilePic}
+                      src={follow.photoURL}
+                      onError={(e) => {
+                        e.target.onerror = null
+                        e.target.src = person
+                      }}
+                      alt={follow.displayName}
+                    /> */}
+                    <p className={classes.name}>{follow.displayName}</p>
+                  </Link>
+                </div>
+              )
+          )}
         </div>
       ) : (
         <h2 className={classes.empty}>No Followers Found</h2>
@@ -75,4 +96,4 @@ function Followers() {
   )
 }
 
-export default Followers
+export default Following
