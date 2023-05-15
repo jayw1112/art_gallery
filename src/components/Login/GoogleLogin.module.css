@@ -1,0 +1,47 @@
+.googleContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-top: 20px;
+  margin-bottom: 20px; */
+  margin: 0.8rem auto;
+  width: 100%;
+  padding: 0.3rem;
+  scale: 0.9;
+}
+
+/* make the button look like an official sign in with google button */
+.button {
+  background-color: #4286f4bb;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem 0.5rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  margin: 0 auto;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: #4286f4;
+  /* scale: 1.03; */
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+  transition: all 0.2s ease-in-out;
+}
+
+.image {
+  width: 12%;
+  height: 12%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease-in-out;
+  margin-right: 0.5rem;
+}

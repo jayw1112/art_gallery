@@ -3,6 +3,7 @@ import AuthForm from '../components/Login/AuthForm'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import createUserDocument from '../utility/firebase.utils'
+import GoogleLogin from '../components/Login/GoogleLogin'
 
 function Login() {
   //   const [loggedIn, setLoggedIn] = useState(true)
@@ -33,6 +34,7 @@ function Login() {
   return (
     <div>
       <AuthForm formType='login' onSubmit={handleLogin} errorMessage={error} />
+      <GoogleLogin buttonText='Log in with Google' />
     </div>
   )
 }

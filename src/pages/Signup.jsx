@@ -4,12 +4,11 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
-  GoogleAuthProvider,
-  signInWithPopup,
 } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import createUserDocument, { storeUserData } from '../utility/firebase.utils'
-import { db } from '../firebase'
+// import { db } from '../firebase'
+import GoogleLogin from '../components/Login/GoogleLogin'
 
 function Signup() {
   const [error, setError] = useState('')
@@ -50,34 +49,6 @@ function Signup() {
       })
   }
 
-  // create a handle Google signup function
-  const handleGoogleSignup = () => {
-    const auth = getAuth()
-    const provider = new GoogleAuthProvider()
-
-    signInWithPopup(auth, provider)
-      .then(async (result) => {
-        const user = result.user
-        console.log(user, 'Signed Up with Google')
-
-        await createUserDocument(user, user.displayName)
-          .then(() => {
-            console.log('Welcome', user.displayName)
-            navigate('/')
-          })
-          .catch((error) => {
-            // An error occurred
-            console.log('Error creating user account with Google:', error)
-          })
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code
-        const errorMessage = error.message
-        setError(errorMessage)
-      })
-  }
-
   return (
     <div>
       <AuthForm
@@ -85,7 +56,7 @@ function Signup() {
         onSubmit={handleSignup}
         errorMessage={error}
       />
-      <button onClick={handleGoogleSignup}>Sign up with Google</button>
+      <GoogleLogin buttonText='Sign up with Google' />
     </div>
   )
 }

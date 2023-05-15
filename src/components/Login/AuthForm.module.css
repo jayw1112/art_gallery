@@ -8,6 +8,55 @@
   margin: 0 auto;
   padding: 2rem;
   border-radius: 12px;
-  background-color: var(--khaki);
+  background-color: var(--gray2);
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+}
+
+.authForm input {
+  width: 70%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--gray);
+  font-size: 1rem;
+}
+
+.authForm input:focus {
+  outline: none;
+  border-color: var(--rosy);
+}
+
+.authForm button {
+  width: 50%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--rosy);
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.authForm button:hover {
+  background-color: var(--rosy2);
+  scale: 1.05;
+}
+
+.authForm button:disabled {
+  background-color: var(--gray);
+  cursor: not-allowed;
+}
+
+.authForm button:disabled:hover {
+  background-color: var(--gray);
+}
+
+.authForm h2 {
+  margin-bottom: 1rem;
+}
+
+.authForm p {
+  margin-bottom: 1rem;
 }

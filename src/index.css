@@ -2,6 +2,11 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  /* font-family: 'Quicksand', sans-serif; */
+  /* font-family: 'Righteous', cursive; */
+  /* font-family: 'Fahkwang', sans-serif; */
+  /* font-family: 'Inder', sans-serif; */
+  font-family: 'Urbanist', sans-serif;
 
   color-scheme: light dark;
   color: var(--gray);
