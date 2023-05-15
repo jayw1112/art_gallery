@@ -118,3 +118,82 @@
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+.successMessage {
+  margin-bottom: 0.4rem;
+}
+
+.progressContainer progress {
+  /* width: 100%; */
+  height: 1.2rem;
+  border-radius: 0.3rem;
+  border: solid;
+  border-color: var(--gray2);
+  border-width: 0.15rem;
+  border-radius: 0.9rem;
+}
+
+.progressContainer progress::-webkit-progress-bar {
+  background-color: var(--blush);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-webkit-progress-value {
+  background-color: var(--rosy);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-moz-progress-bar {
+  background-color: var(--gray);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-ms-fill {
+  background-color: var(--gray2);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-ms-fill-lower {
+  background-color: var(--rosy2);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-ms-fill-upper {
+  background-color: var(--blush);
+  border-radius: 0.3rem;
+}
+
+/* .progressContainer progress::-webkit-progress-value {
+  background-color: var(--blush);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-webkit-progress-bar {
+  background-color: var(--rosy);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-webkit-progress-value {
+  background-color: var(--blush);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-moz-progress-bar {
+  background-color: var(--blush);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-ms-fill {
+  background-color: var(--blush);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-ms-fill-lower {
+  background-color: var(--blush);
+  border-radius: 0.3rem;
+}
+
+.progressContainer progress::-ms-fill-upper {
+  background-color: var(--blush);
+  border-radius: 0.3rem;
+} */
