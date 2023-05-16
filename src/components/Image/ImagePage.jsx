@@ -3,7 +3,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { ref, getDownloadURL } from 'firebase/storage'
 import { db, imageDataUsers, storage } from '../../firebase'
 import ImageCard from '../GalleryUI/ImageCard'
-import { useLocation, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import classes from './ImagePage.module.css'
 import Spinner from '../UI/Spinner'
 import Comments from '../Comments/Comments'
@@ -134,6 +134,9 @@ function ImagePage({ displayLink }) {
             owner={imageData.owner}
             displayLink={displayLink}
           />
+          <Link className={classes.profile} to={`/profile/${ownerId}`}>
+            Back to Profile
+          </Link>
         </div>
       )}
       {isCommentsLoading && <Spinner />}
