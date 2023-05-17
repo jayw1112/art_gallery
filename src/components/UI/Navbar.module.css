@@ -6,10 +6,13 @@
   padding: 1.2rem;
   padding-bottom: 0.7rem;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: space-around;
+  /* justify-content: center; */
   align-items: center; /* Add this to vertically align the items */
   position: sticky;
   width: 100%;
+  /* width: 100vw; */
   text-shadow: 4px -2px 4px var(--rosy);
   top: 0;
   z-index: 1000;
@@ -38,6 +41,17 @@
   padding: 0 1rem;
 }
 
+.navbarHeader {
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+}
+
+.navbarMenu {
+  display: none;
+  flex-direction: column;
+}
+
 .buttons {
   display: flex;
   flex-grow: 1; /* Add this to make the buttons div take up the remaining space */
@@ -63,4 +77,107 @@
 .active {
   color: var(--rosy);
   text-shadow: 0 0 10px var(--blush);
+}
+
+/* Dropdown navbar */
+
+/* .dropdownButton {
+  display: none;
+} */
+
+.dropdownContent {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: rgba(90, 102, 114, 0.651); /* semi-transparent background */
+  width: 100%;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.dropdownContentActive {
+  display: flex;
+}
+
+.menu {
+  width: 55%;
+  height: 55%;
+  margin: 0 auto;
+}
+
+@media (width <= 610px) {
+  .navbar {
+    justify-content: flex-start;
+  }
+
+  /* .navbarHeader {
+    width: 30%; 
+  } */
+
+  .navbarMenu {
+    /* display: grid;
+    grid-template-columns: 1fr; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .dropdownContentActive {
+    display: none;
+  }
+
+  .leftSide,
+  .rightSide {
+    flex-direction: column;
+  }
+}
+
+@media (440px <= width <= 610px) {
+  .navbar {
+    justify-content: center;
+  }
+}
+
+@media (611px <= width <= 900px) {
+  .navbar {
+    justify-content: space-evenly;
+    width: 100vw;
+    font-size: 0.7rem;
+  }
+
+  .navbar a {
+    margin: 0 0.4rem;
+    padding: 0.25rem;
+  }
+
+  /* .dropdownContent {
+    display: none;
+  } */
+
+  .dropdownContent.dropdownContentActive {
+    display: block;
+  }
+  .dropdownButton {
+    display: none;
+  }
+}
+
+@media (900px <= width) {
+  /* .navbar {
+    
+  } */
+  /* .leftSide {
+  } */
+  /* .dropdownContent {
+    display: none;
+  } */
+  .dropdownButton {
+    display: none;
+  }
+
+  .dropdownContent.dropdownContentActive {
+    display: block;
+  }
 }
