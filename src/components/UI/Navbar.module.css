@@ -144,7 +144,7 @@
   .navbar {
     justify-content: space-evenly;
     width: 100vw;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
   }
 
   .navbar a {
