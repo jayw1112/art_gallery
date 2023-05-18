@@ -6,3 +6,21 @@
   margin: 2rem;
   padding: 1rem;
 }
+
+@media (width <= 480px) {
+  .container {
+    grid-template-columns: 1fr;
+    padding: 0.3rem;
+    margin: 0.8rem;
+    grid-gap: 0.5rem;
+  }
+}
+
+@media (480px <= width <= 768px) {
+  .container {
+    grid-template-columns: 1fr 1fr;
+    padding: 0.3rem;
+    margin: 0.8rem;
+    grid-gap: 0.5rem;
+  }
+}
