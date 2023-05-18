@@ -1,12 +1,36 @@
 .formContainer {
   display: flex;
   flex-direction: row;
-
   place-items: center;
   align-items: center;
   justify-content: center;
-  /* width: 100%; */
+  /* font-family: 'Quicksand', sans-serif; */
+  /* font-family: 'Righteous', cursive; */
+  /* font-family: 'Fahkwang', sans-serif; */
+  font-family: 'Inder', sans-serif;
 }
+
+/* .formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+} */
+
+/*  */
+.inputField {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem; /* add some space below each block */
+  width: 100%; /* take up full width of the container */
+}
+
+.inputField label {
+  margin-right: 1rem; /* add some space between the label and the input */
+}
+
+/*  */
 
 .formContainer button {
   margin: 1.2rem 0.2rem;
@@ -16,17 +40,27 @@
   color: var(--khaki);
   background-color: var(--gray);
   text-shadow: 0 0 10px var(--rosy);
-  border-radius: 3px;
+  border-radius: 4px;
+  /* font-family: 'Quicksand', sans-serif; */
+  /* font-family: 'Righteous', cursive; */
+  /* font-family: 'Fahkwang', sans-serif; */
+  font-family: 'Inder', sans-serif;
 }
 
 .formContainer input {
   margin: 0.8rem;
   padding: 0.7rem;
-  /* text-align: center; */
   font-size: 1rem;
   color: var(--gray);
   background-color: var(--khaki);
-  /* text-shadow: 0 0 2px black; */
+  /* font-family: 'Quicksand', sans-serif; */
+  /* font-family: 'Righteous', cursive; */
+  /* font-family: 'Fahkwang', sans-serif; */
+  font-family: 'Inder', sans-serif;
+}
+
+.formContainer label {
+  font-size: 0.85rem;
 }
 
 .warning {
@@ -34,4 +68,43 @@
   text-shadow: none;
   font-weight: bold;
   margin-top: 1rem;
+}
+
+.textArea {
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+  margin-top: 0.8rem;
+  border-radius: 5px;
+  border: 2px solid var(--gray);
+  font-size: 1rem;
+  resize: none;
+  /* font-family: 'Quicksand', sans-serif; */
+  /* font-family: 'Righteous', cursive; */
+  /* font-family: 'Fahkwang', sans-serif; */
+  font-family: 'Inder', sans-serif;
+}
+
+.textArea:focus {
+  outline: none;
+  border-color: var(--rosy);
+}
+
+.textArea::placeholder {
+  font-family: 'Inder', sans-serif;
+}
+
+@media (width <= 480px) {
+  .formContainer {
+    scale: 0.9;
+  }
+  .textArea {
+    scale: 0.95;
+  }
+}
+
+@media (480px <= width <= 768px) {
+  .formContainer {
+    scale: 0.94;
+  }
 }

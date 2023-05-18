@@ -53,6 +53,10 @@
   text-shadow: 0 0 10px var(--rosy);
   border-radius: 0.3rem;
   border: none;
+  /* font-family: 'Quicksand', sans-serif; */
+  /* font-family: 'Righteous', cursive; */
+  /* font-family: 'Fahkwang', sans-serif; */
+  font-family: 'Inder', sans-serif;
 }
 
 .uploadForm button {
@@ -66,6 +70,7 @@
   border-radius: 0.3rem;
   cursor: pointer;
   border: none;
+  font-family: 'Inder', sans-serif;
 }
 
 .uploadForm button:hover {
@@ -79,7 +84,7 @@
 }
 
 .container h2 {
-  margin-bottom: 1.5rem;
+  margin: 1rem 0;
 }
 
 .container p {

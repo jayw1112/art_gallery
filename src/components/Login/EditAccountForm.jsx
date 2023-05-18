@@ -240,42 +240,48 @@ function EditAccountForm({ closeModal }) {
   return (
     <div className={classes.formContainer}>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='displayName'>Display Name:</label>
-        <input
-          type='text'
-          name='displayName'
-          id='displayName'
-          value={displayName}
-          onChange={(e) => setDisplayName(e.target.value)}
-        />
-        <label htmlFor='email'>Email:</label>
-        <input
-          type='email'
-          name='email'
-          id='email'
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <label htmlFor='password'>Password:</label>
-        <input
-          type='password'
-          name='password'
-          id='password'
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <label htmlFor='profilePic'>Profile Picture:</label>
-        <input
-          type='file'
-          className={classes.profilePicInput}
-          name='profilePic'
-          id='profilePic'
-          accept='image/*'
-          onChange={handleProfilePicChange}
-        />
-        <button type='button' onClick={() => setShowTextArea(!showTextArea)}>
-          Edit Bio
-        </button>
+        <div className='inputField'>
+          <label htmlFor='displayName'>Display Name:</label>
+          <input
+            type='text'
+            name='displayName'
+            id='displayName'
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+          />
+        </div>
+        <div className='inputField'>
+          <label htmlFor='email'>Email:</label>
+          <input
+            type='email'
+            name='email'
+            id='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+        <div className='inputField'>
+          <label htmlFor='password'>Password:</label>
+          <input
+            type='password'
+            name='password'
+            id='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div className='inputField'>
+          <label htmlFor='profilePic'>Profile Picture:</label>
+          <input
+            type='file'
+            className={classes.profilePicInput}
+            name='profilePic'
+            id='profilePic'
+            accept='image/*'
+            onChange={handleProfilePicChange}
+          />
+        </div>
+
         {showTextArea && (
           <div>
             <textarea
@@ -289,9 +295,14 @@ function EditAccountForm({ closeModal }) {
               cols='37'
               maxLength={200}
             />
-            <button onClick={saveBioChange}>Save Bio</button>
           </div>
         )}
+        <div className='inputField'>
+          <button type='button' onClick={() => setShowTextArea(!showTextArea)}>
+            Edit Bio
+          </button>
+          {showTextArea && <button onClick={saveBioChange}>Save Bio</button>}
+        </div>
         <button
           className={classes.deleteButton}
           type='button'

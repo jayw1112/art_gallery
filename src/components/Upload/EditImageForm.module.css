@@ -3,7 +3,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* width: 100%; */
+  font-family: 'Inder', sans-serif;
+}
+
+.formContainer label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  color: var(--blush);
 }
 
 .formContainer input {
@@ -13,7 +22,14 @@
   font-size: 1rem;
   color: var(--gray);
   background-color: var(--khaki);
-  /* text-shadow: 0 0 2px black; */
+  border-radius: 3px;
+  border: 2px solid var(--gray);
+  font-family: 'Inder', sans-serif;
+}
+
+.formContainer input:focus {
+  outline: none;
+  border-color: var(--rosy);
 }
 
 .formContainer button {
@@ -25,4 +41,25 @@
   background-color: var(--gray);
   text-shadow: 0 0 10px var(--rosy);
   border-radius: 3px;
+  font-family: 'Inder', sans-serif;
+}
+
+.formContainer button:hover {
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  background-color: var(--rosy2);
+  color: white;
+}
+
+.formContainer h2 {
+  margin-bottom: 0.5rem;
+  color: var(--blush);
+}
+
+@media (width <= 680px) {
+  .labelContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* to ensure the label-input pairs take up full width */
+  }
 }

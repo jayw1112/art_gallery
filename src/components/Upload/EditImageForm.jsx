@@ -46,24 +46,35 @@ function EditImageForm({
   return (
     <div className={classes.formContainer}>
       <form onSubmit={handleSubmit}>
-        <input
-          type='text'
-          name='title'
-          id='title'
-          value={title}
-          onChange={handleEdit}
-        />
-        <input
-          type='text'
-          name='description'
-          id='description'
-          value={description}
-          onChange={handleEdit}
-        />
-        <button type='submit'>Save</button>
-        <button type='button' onClick={handleDelete}>
-          Delete
-        </button>
+        <h2>Edit Image</h2>
+        <div className='labelContainer'>
+          <label htmlFor='title'>
+            Title:
+            <input
+              type='text'
+              name='title'
+              id='title'
+              value={title}
+              onChange={handleEdit}
+            />
+          </label>
+          <label htmlFor='description'>
+            Description:
+            <input
+              type='text'
+              name='description'
+              id='description'
+              value={description}
+              onChange={handleEdit}
+            />
+          </label>
+        </div>
+        <div className={classes.buttons}>
+          <button type='submit'>Save</button>
+          <button type='button' onClick={handleDelete}>
+            Delete
+          </button>
+        </div>
       </form>
     </div>
   )
