@@ -101,97 +101,6 @@ function UploadForm() {
     setDescription(imageDescription)
   }
 
-  // const handleSubmit = (e) => {
-  //   function generateUniqueId(length = 6) {
-  //     const characters =
-  //       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  //     let result = ''
-
-  //     for (let i = 0; i < length; i++) {
-  //       result += characters.charAt(
-  //         Math.floor(Math.random() * characters.length)
-  //       )
-  //     }
-
-  //     return result
-  //   }
-
-  //   const metadata = {
-  //     name: file.name,
-  //     contentType: file.type,
-  //     timeCreated: new Date().toString(),
-  //     customMetadata: {
-  //       title: title,
-  //       description: description,
-  //       owner: currentUser.uid, // the user ID of the uploader
-  //       // url: imageURL,
-  //     },
-  //   }
-
-  //   e.preventDefault()
-  //   if (file && title && description) {
-  //     const userStorageRef = getUserStorageRef(storage, uid)
-  //     console.log('userStorageRef:', userStorageRef) // Debugging line
-  //     console.log('uid:', uid) // Debugging line
-  //     const imageRef = ref(userStorageRef, `${generateUniqueId()}-${title}`)
-
-  //     uploadBytes(imageRef, file, metadata).then(async (snapshot) => {
-  //       console.log('Uploaded Image!')
-  //       // const progress = Math.round(
-  //       //   (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  //       // )
-  //       // setProgress(progress)
-
-  //       const imageId = imageRef.fullPath
-  //       // const downloadURL = await getDownloadURL(snapshot.ref)
-  //       // await updateFollowersFeeds(
-  //       //   db,
-  //       //   currentUser.uid,
-  //       //   imageId,
-  //       //   metadata,
-  //       //   downloadURL
-  //       // )
-
-  //       const downloadURL = await getDownloadURL(snapshot.ref)
-  //       await storeImageMetadata(
-  //         imageId,
-  //         {
-  //           title: metadata.customMetadata.title,
-  //           description: metadata.customMetadata.description,
-  //           path: imageRef.fullPath,
-  //           owner: metadata.customMetadata.owner,
-  //           timeCreated: metadata.timeCreated,
-  //         },
-  //         downloadURL
-  //       )
-  //       await updateFollowersFeeds(
-  //         db,
-  //         currentUser.uid,
-  //         imageId,
-  //         metadata,
-  //         downloadURL
-  //       )
-
-  //       if (successTimeout) clearTimeout(successTimeout)
-  //       setSuccess(true)
-  //       const newTimeout = setTimeout(() => {
-  //         setSuccess(false)
-  //       }, 5000) // Time limit in milliseconds, adjust to your preference
-  //       setSuccessTimeout(newTimeout)
-
-  //       setImageURL(null)
-  //       setSuccess(true)
-  //       // setProgress(0)
-  //       setFile(null)
-  //       setTitle('')
-  //       setDescription('')
-  //       setError(null)
-  //     })
-  //   } else {
-  //     setError('Please fill out all fields.')
-  //   }
-  // }
-
   const handleSubmit = (e) => {
     function generateUniqueId(length = 6) {
       const characters =
@@ -345,7 +254,9 @@ function UploadForm() {
           value={description}
           onChange={handleDescriptionChange}
         />
-        <button type='submit'>Upload</button>
+        <button type='submit' disabled={!file}>
+          Upload
+        </button>
         {success && (
           <div className={classes.successMessage}>
             Image uploaded successfully!
