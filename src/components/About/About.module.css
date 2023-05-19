@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   /* height: 100vh; */
-  margin: 3rem 15rem;
+  margin: 3rem 13rem;
   padding: 1rem;
   padding-top: -3rem;
   margin-top: -2rem;
@@ -50,7 +50,7 @@
 }
 
 .divider {
-  width: 70%;
+  width: 75%;
   height: 0.2rem;
   background-color: var(--rosy2);
   border-radius: 10rem;
@@ -62,4 +62,130 @@
   padding: 3rem;
   padding-bottom: 5rem;
   font-size: 1.38rem;
+}
+
+@media (width <= 490px) {
+  .aboutContainer {
+    margin: 1rem 2rem;
+    margin-top: -4.4rem;
+  }
+
+  .aboutContainer h1 {
+    font-size: 1.95rem;
+    margin-top: 0.6rem;
+  }
+
+  .aboutContainer h2 {
+    font-size: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .aboutContainer p {
+    font-size: 1.13rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .aboutContainer img {
+    width: 23%;
+    height: 23%;
+  }
+
+  .aboutContainer ul li {
+    font-size: 1.06rem;
+  }
+
+  .divider {
+    width: 90%;
+    height: 0.2rem;
+    margin: 1rem 1rem;
+  }
+
+  .lastPara {
+    padding: 1rem;
+    padding-bottom: 3rem;
+  }
+}
+
+@media (491px <= width <= 768px) {
+  .aboutContainer {
+    margin: 2rem 2rem;
+    margin-top: -3.4rem;
+  }
+
+  .aboutContainer h1 {
+    font-size: 2.25rem;
+    margin-top: 0.6rem;
+  }
+
+  .aboutContainer h2 {
+    font-size: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .aboutContainer p {
+    font-size: 1.13rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .aboutContainer img {
+    height: 16%;
+    width: 16%;
+  }
+
+  .aboutContainer ul li {
+    font-size: 1.06rem;
+  }
+
+  .divider {
+    width: 90%;
+    height: 0.2rem;
+    margin: 1rem 1rem;
+  }
+
+  .lastPara {
+    padding: 1rem;
+    padding-bottom: 3rem;
+  }
+}
+
+@media (769px <= width <= 1008px) {
+  .aboutContainer {
+    margin: 1rem 8rem;
+    margin-top: -3.4rem;
+  }
+
+  .aboutContainer h1 {
+    font-size: 2.35rem;
+    margin-top: 0.6rem;
+  }
+
+  .aboutContainer h2 {
+    font-size: 1.8rem;
+    margin: 2rem 0;
+  }
+
+  .aboutContainer p {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .aboutContainer img {
+    width: 21%;
+    height: 21%;
+  }
+
+  .aboutContainer ul li {
+    font-size: 1.15rem;
+  }
+
+  .divider {
+    width: 75%;
+    height: 0.2rem;
+    margin: 1rem 1rem;
+  }
+
+  .lastPara {
+    padding: 1rem;
+    padding-bottom: 3rem;
+  }
 }
