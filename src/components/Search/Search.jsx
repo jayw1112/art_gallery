@@ -138,7 +138,9 @@ function Search() {
           <option value='users'>Users</option>
           <option value='images'>Images</option>
         </select>
-        <button type='submit'>Search</button>
+        <button className={classes.searchButton} type='submit'>
+          Search
+        </button>
       </form>
 
       {isLoading && <Spinner />}

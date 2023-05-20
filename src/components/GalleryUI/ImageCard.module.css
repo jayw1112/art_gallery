@@ -8,7 +8,29 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8); /* Adjust the vertical offset */
   transition: all 0.3s ease;
   /* width: 60%; */
+  /* container-type: inline-size; */
 }
+
+/* @container (max-width: 400px) {
+  .card {
+
+  }
+  .card .title,
+  .card .description {
+    font-size: 0.9em;
+  }
+  .card .buttonIcon {
+  }
+
+  .buttons {
+    width: 90%;
+  }
+
+  .viewImage {
+    scale: 0.3;
+    font-size: 0.2rem;
+  }
+} */
 
 .card img {
   /* cursor: pointer; */
@@ -95,13 +117,15 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   letter-spacing: 0.06rem;
-  /* font-weight: 300; */
-  /* scale: 0.9; */
+  /* font-weight: 600; */
+  scale: 0.95;
   /* font-size: 0.9rem; */
+  font-family: 'Urbanist', sans-serif;
 }
 
 .viewImage:hover {
   background-color: var(--gray);
   transition: background-color 0.3s ease;
-  scale: 1.05;
+  scale: 1;
+  color: var(--blush);
 }

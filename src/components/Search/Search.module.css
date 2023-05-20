@@ -19,7 +19,7 @@
   grid-gap: 20px;
   overflow-y: auto;
   max-height: 70vh;
-  padding: 1.6rem;
+  padding: 1.2rem;
 }
 
 .imagesGrid::-webkit-scrollbar {
@@ -47,6 +47,8 @@
   border-radius: 5px;
   border: 1px solid #ccc;
   outline: none;
+  font-family: 'Inder', sans-serif;
+  /* font-family: 'Urbanist', sans-serif; */
 }
 
 .searchContainer input:focus {
@@ -71,6 +73,9 @@
   border: 1px solid #ccc;
   outline: none;
   text-align: center;
+
+  font-family: 'Inder', sans-serif;
+  /* font-family: 'Urbanist', sans-serif; */
 }
 
 .searchContainer select:focus {
@@ -112,7 +117,7 @@
   font-weight: bold;
   font-size: 0.8rem;
   margin: 1rem auto;
-  padding: 0.1rem;
+  padding: 0.2rem;
   border-radius: 5px;
   border: 1px solid var(--rosy);
   background-color: var(--gray);
@@ -121,9 +126,19 @@
   width: 20%;
   text-align: center;
   align-items: center;
+  scale: 0.9;
+  font-family: 'Inder', sans-serif;
+  /* font-family: 'Urbanist', sans-serif; */
 }
 
-.searchContainer button {
+.link2:hover {
+  background-color: var(--rosy2);
+  color: var(--gray);
+  border: 1px solid var(--gray);
+  scale: 0.95;
+}
+
+.searchContainer .searchButton {
   width: 30%;
   height: 40px;
   margin: 10px 0;
@@ -132,9 +147,12 @@
   background-color: var(--rosy2);
   color: #fff;
   cursor: pointer;
+
+  font-family: 'Inder', sans-serif;
+  /* font-family: 'Urbanist', sans-serif; */
 }
 
-.searchContainer button:hover {
+.searchContainer .searchButton:hover {
   background-color: #bbb;
 }
 
@@ -168,11 +186,12 @@
     width: 80%;
   }
 
-  .searchContainer button {
+  .searchContainer .searchButton {
     width: 70%;
   }
 
   .imagesGrid {
     grid-template-columns: 1fr;
+    padding: 0.5rem;
   }
 }
