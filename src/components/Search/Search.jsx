@@ -140,7 +140,9 @@ function Search() {
         </select>
         <button type='submit'>Search</button>
       </form>
+
       {isLoading && <Spinner />}
+
       {!isLoading && (
         <div
           className={
