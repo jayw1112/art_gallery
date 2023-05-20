@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 75%;
+  width: 95%;
   margin: 0 auto;
   padding: 2rem 0;
 }
@@ -37,7 +37,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 50vh; /* Adjust this value to set the desired height */
@@ -74,4 +74,36 @@
 .profile:hover {
   color: var(--rosy);
   scale: 1.05;
+}
+
+@media (width <= 480px) {
+  .commentContainer {
+    width: 100%;
+    /* align-items: start; */
+    align-items: flex-start;
+  }
+
+  .commentSection {
+    width: 100%;
+  }
+
+  .imageContainer {
+    width: 100%;
+  }
+}
+
+@media (481px <= width <= 906px) {
+  .commentContainer {
+    width: 100%;
+    /* align-items: start; */
+    /* align-items: flex-start; */
+  }
+
+  .commentSection {
+    width: 100%;
+  }
+
+  .imageContainer {
+    width: 95%;
+  }
 }

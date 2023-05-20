@@ -77,7 +77,12 @@ function Navbar() {
   return (
     <nav className={classes.navbar}>
       <div className={classes.navbarHeader}>
-        <img src={logo} alt='logo' className={classes.logo} />
+        {/* <img src={logo} alt='logo' className={classes.logo} /> */}
+
+        <Link className={classes.logoLink} to='/'>
+          <img src={logo} alt='logo' className={classes.logo} />
+        </Link>
+
         <h1>Palette Express</h1>
         <button
           ref={buttonRef}

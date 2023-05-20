@@ -140,9 +140,12 @@ function Comments({ setIsCommentsLoading }) {
                   className={classes.commentProfilePic}
                 />
                 <p className={classes.text}>{comment.text}</p>
-                <Link to={`/profile/${comment.userId}`}>
-                  <p className={classes.name}>{comment.username}</p>
-                </Link>
+
+                <p className={classes.name}>
+                  <Link to={`/profile/${comment.userId}`}>
+                    {comment.username}
+                  </Link>
+                </p>
               </div>
               <small className={classes.date}>
                 {comment.editedTimestamp

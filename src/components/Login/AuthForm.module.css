@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 20%;
+  max-width: 30%;
   margin: 0 auto;
   padding: 2rem;
   border-radius: 12px;
@@ -18,7 +18,7 @@
   margin-bottom: 1rem;
   border-radius: 5px;
   border: 1px solid var(--gray);
-  font-size: 1rem;
+  font-size: 0.96rem;
 }
 
 .authForm input:focus {
@@ -59,4 +59,53 @@
 
 .authForm p {
   margin-bottom: 1rem;
+}
+
+@media (width <= 480px) {
+  .authForm {
+    max-width: 60%;
+  }
+
+  .authForm input {
+    width: 70%;
+    font-size: 0.8rem;
+  }
+
+  .authForm button {
+    width: 45%;
+    font-size: 0.95rem;
+  }
+}
+
+@media (480px <= width <= 630px) {
+  .authForm {
+    max-width: 50%;
+  }
+
+  .authForm input {
+    width: 70%;
+    font-size: 0.85rem;
+  }
+
+  .authForm button {
+    width: 40%;
+    font-size: 0.98rem;
+  }
+}
+
+@media (630px <= width <= 886px) {
+  .authForm {
+    max-width: 40%;
+    width: 40%;
+  }
+
+  .authForm input {
+    width: 60%;
+    font-size: 0.9rem;
+  }
+
+  .authForm button {
+    width: 35%;
+    font-size: 1rem;
+  }
 }

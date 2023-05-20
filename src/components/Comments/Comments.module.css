@@ -4,6 +4,7 @@
   align-items: center;
   /* overflow-y: scroll;
   overflow-x: auto; */
+  /* max-height: 75%; */
   max-height: 75%;
   width: 75%;
 }
@@ -21,12 +22,13 @@
   /* width: fit-content; */
   align-self: center;
   display: flex;
-  /* flex-direction: column;
-  align-items: center;
+  flex-direction: column;
+  /* align-items: center;
   justify-content: center; */
-  width: 90%;
+  /* width: 90%; */
   /* min-height: 7rem; 
   max-height: 7rem;  */
+  background-color: var(--blush);
 }
 
 .commentContent {
@@ -82,6 +84,14 @@
   margin: 1rem;
   text-align: start;
   font-weight: 100;
+  /* make it so only the name is clickable since it's a link and not the empty space */
+  /* display: inline-block; */
+}
+
+.name a {
+  display: inline;
+  text-decoration: none;
+  color: inherit; /* To keep the text color same as its parent */
 }
 
 .comment a {
@@ -109,4 +119,91 @@
   border-radius: 50%;
   object-fit: cover;
   margin-right: 8px;
+}
+
+/* @media (width <= 480px) {
+
+} */
+
+@media (width <= 480px) {
+  /* .commentContainer {
+    width: 80%;
+  } */
+
+  .comment {
+    width: 100%;
+    margin: 0.5rem;
+    flex-direction: column;
+  }
+
+  .commentContent {
+    padding-right: 0.5rem;
+  }
+
+  .comment button,
+  .comment input {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .date,
+  .name,
+  .text {
+    margin: 0.5rem;
+  }
+
+  .commentProfilePic {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+  }
+
+  /* .comment {
+    min-height: 6rem;
+    max-height: 6rem;
+  } */
+
+  .commentContent {
+    min-width: 80%;
+  }
+
+  .comment button,
+  .comment input {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .comment input {
+    width: 80%;
+  }
+
+  .buttonContainer {
+    /* flex-direction: column; */
+    /* center the buttons at the bottom of the container */
+    align-self: flex-end;
+  }
+
+  .text {
+    font-size: 1rem;
+  }
+
+  .date {
+    font-size: 0.7rem;
+  }
+}
+
+@media (481px <= width <= 780px) {
+  .text {
+    font-size: 1.1rem;
+  }
+
+  .comment button {
+    margin: 0;
+    font-size: 0.8rem;
+    scale: 0.9;
+  }
+
+  .comment input {
+    scale: 0.9;
+  }
 }
