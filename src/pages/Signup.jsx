@@ -6,7 +6,10 @@ import {
   updateProfile,
 } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
-import createUserDocument, { storeUserData } from '../utility/firebase.utils'
+import createUserDocument, {
+  handleFirebaseError,
+  storeUserData,
+} from '../utility/firebase.utils'
 // import { db } from '../firebase'
 import GoogleLogin from '../components/Login/GoogleLogin'
 
@@ -43,7 +46,7 @@ function Signup() {
       })
       .catch((error) => {
         const errorCode = error.code
-        const errorMessage = error.message
+        const errorMessage = handleFirebaseError(error)
         setError(errorMessage)
         // ..
       })

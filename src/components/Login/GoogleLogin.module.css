@@ -45,3 +45,9 @@
   transition: all 0.2s ease-in-out;
   margin-right: 0.5rem;
 }
+
+@media (max-width: 768px) {
+  .googleContainer {
+    scale: 0.8;
+  }
+}

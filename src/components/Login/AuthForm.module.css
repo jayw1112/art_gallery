@@ -13,7 +13,7 @@
 }
 
 .authForm input {
-  width: 70%;
+  width: 50%;
   padding: 0.5rem;
   margin-bottom: 1rem;
   border-radius: 5px;
@@ -61,6 +61,81 @@
   margin-bottom: 1rem;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.input {
+  width: 19%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--gray);
+  font-size: 0.96rem;
+  background-color: var(--gray2);
+  color: var(--gray);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--rosy);
+}
+
+.input::placeholder {
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.submit {
+  width: 15%;
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--rosy);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.reset {
+  width: 20%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.submit:hover {
+  background-color: var(--rosy2);
+  scale: 1.05;
+}
+
+.reset:hover {
+  background-color: var(--rosy2);
+  /* scale: 1.01; */
+}
+
+.errorMessage {
+  color: var(--rosy);
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Media Queries */
+
 @media (width <= 480px) {
   .authForm {
     max-width: 60%;
@@ -74,6 +149,31 @@
   .authForm button {
     width: 45%;
     font-size: 0.95rem;
+  }
+
+  .errorMessage {
+    font-size: 0.8rem;
+  }
+
+  .reset {
+    width: 55%;
+    scale: 0.85;
+    /* font-size: 0.73rem; */
+  }
+
+  .submit {
+    width: 36%;
+    /* font-size: 0.88rem; */
+    scale: 0.85;
+  }
+
+  .input {
+    width: 41%;
+    font-size: 0.8rem;
+  }
+
+  .input::placeholder {
+    font-size: 0.7rem;
   }
 }
 
@@ -91,6 +191,25 @@
     width: 40%;
     font-size: 0.98rem;
   }
+
+  .errorMessage {
+    font-size: 0.85rem;
+  }
+
+  .reset {
+    width: 45%;
+    scale: 0.89;
+  }
+
+  .submit {
+    width: 25%;
+    scale: 0.9;
+  }
+
+  .input {
+    width: 35%;
+    font-size: 0.8rem;
+  }
 }
 
 @media (630px <= width <= 886px) {
@@ -100,12 +219,31 @@
   }
 
   .authForm input {
-    width: 60%;
+    width: 65%;
     font-size: 0.9rem;
   }
 
   .authForm button {
     width: 35%;
     font-size: 1rem;
+  }
+
+  .errorMessage {
+    font-size: 0.9rem;
+  }
+
+  .reset {
+    width: 25%;
+    scale: 0.9;
+  }
+
+  .submit {
+    width: 19%;
+    scale: 0.9;
+  }
+
+  .input {
+    width: 23%;
+    font-size: 0.9rem;
   }
 }

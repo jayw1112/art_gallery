@@ -254,3 +254,32 @@ export const fetchFollowing = async (uid) => {
     return null
   }
 }
+
+export function handleFirebaseError(error) {
+  const errorCode = error.code
+  let errorMessage
+
+  switch (errorCode) {
+    case 'auth/invalid-password':
+      errorMessage = 'Incorrect password.'
+      break
+
+    case 'auth/invalid-email':
+      errorMessage = 'Invalid email.'
+      break
+    case 'auth/user-disabled':
+      errorMessage = 'This user account has been disabled.'
+      break
+    case 'auth/user-not-found':
+      errorMessage = 'No user found with this email.'
+      break
+    case 'auth/email-already-exists':
+      errorMessage = 'Email already exists.'
+      break
+
+    default:
+      errorMessage = 'Invalid password/email.'
+      break
+  }
+  return errorMessage
+}
