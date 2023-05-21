@@ -99,7 +99,7 @@ function Profile() {
       customMetadata: {
         title: newTitle,
         description: newDescription,
-        owner: currentUser.uid,
+        owner: currentUser?.uid,
       },
     }
 
@@ -109,7 +109,7 @@ function Profile() {
 
       // Update metadata in Firestore
       const imageId = image.metadata.name
-      const ownerId = currentUser.uid
+      const ownerId = currentUser?.uid
       const imageDocRef = doc(db, 'ImageMetaData', 'users', ownerId, imageId)
 
       await updateDoc(imageDocRef, {
@@ -132,7 +132,7 @@ function Profile() {
 
       // Delete the image metadata
       const imageId = image.metadata.name
-      const ownerId = currentUser.uid
+      const ownerId = currentUser?.uid
       const imageDocRef = doc(db, 'ImageMetaData', 'users', ownerId, imageId)
       await deleteDoc(imageDocRef)
       console.log('Firestore metadata deleted successfully!')
@@ -189,7 +189,7 @@ function Profile() {
           }}
         />
       )}
-      {currentUser.uid !== uid && (
+      {currentUser && currentUser.uid !== uid && (
         <FollowButton currentUser={currentUser} userId={uid} />
       )}
 

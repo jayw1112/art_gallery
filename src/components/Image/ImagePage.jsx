@@ -82,12 +82,7 @@ function ImagePage({ displayLink }) {
         console.log('imageId:', imageId) // debugging
         console.log('ownerId:', ownerId) // debugging
 
-        const imageRef = getImageStorageRef(
-          storage,
-          currentUser.uid,
-          imageId,
-          ownerId
-        )
+        const imageRef = getImageStorageRef(storage, ownerId, imageId)
         if (imageRef) {
           const imageUrl = await getDownloadURL(imageRef)
 
@@ -119,7 +114,7 @@ function ImagePage({ displayLink }) {
     }
 
     fetchImage()
-  }, [currentUser.uid, imageId, ownerId])
+  }, [imageId, ownerId])
 
   return (
     <>
@@ -135,7 +130,7 @@ function ImagePage({ displayLink }) {
             displayLink={displayLink}
           />
           <Link className={classes.profile} to={`/profile/${ownerId}`}>
-            Back to Profile
+            Go to Profile
           </Link>
         </div>
       )}

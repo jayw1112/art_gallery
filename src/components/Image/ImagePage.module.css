@@ -68,7 +68,7 @@
   font-size: 1.1rem;
   font-weight: bold;
   transition: all 0.2s ease-in-out;
-  margin-top: 1.2rem;
+  margin: 1.2rem 0;
 }
 
 .profile:hover {
