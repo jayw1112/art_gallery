@@ -46,7 +46,7 @@ function Search() {
               results.push({ ...doc.data(), id: doc.id })
             })
             setSearchResults(results)
-            console.log('User search results:', results)
+            // console.log('User search results:', results)
           } else {
             // searchCollection = collection(db, 'ImageMetadata')
             // searchQuery = query(
@@ -95,7 +95,7 @@ function Search() {
             const results = (await Promise.all(searchPromises)).flat()
             setSearchResults(results)
 
-            console.log('Image search results:', results)
+            // console.log('Image search results:', results)
           }
         } catch (error) {
           console.log('Error fetching search results:', error)
@@ -120,8 +120,8 @@ function Search() {
 
   const handleSearch = (event) => {
     event.preventDefault()
-    console.log('Search term:', searchTerm)
-    console.log('Search type:', searchType)
+    // console.log('Search term:', searchTerm)
+    // console.log('Search type:', searchType)
   }
 
   return (

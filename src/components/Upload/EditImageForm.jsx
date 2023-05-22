@@ -19,7 +19,7 @@ function EditImageForm({
     e.preventDefault()
     await updateImageMetadata(selectedImage, title, description)
     // Handle form submission here (e.g., update the image metadata)
-    console.log(title, description)
+    // console.log(title, description)
     closeModal()
     fetchImages()
   }

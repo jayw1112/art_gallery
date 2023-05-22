@@ -23,9 +23,9 @@ onAuthStateChanged(auth, (user) => {
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
     const uid = user.uid
-    console.log(uid)
+    // console.log(uid)
     const username = user.displayName
-    console.log(username)
+    // console.log(username)
 
     // ...
   } else {

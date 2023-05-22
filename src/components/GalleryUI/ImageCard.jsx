@@ -118,7 +118,7 @@ function ImageCard({
       // Update the like count directly within the onSnapshot callback
       const likes = querySnapshot.size
       setlikeCount(likes)
-      console.log(`Likes: ${likes}`)
+      // console.log(`Likes: ${likes}`)
     })
 
     return () => {

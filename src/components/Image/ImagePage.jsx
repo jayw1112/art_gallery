@@ -79,18 +79,18 @@ function ImagePage({ displayLink }) {
     const fetchImage = async () => {
       setIsLoading(true)
       try {
-        console.log('imageId:', imageId) // debugging
-        console.log('ownerId:', ownerId) // debugging
+        // console.log('imageId:', imageId) // debugging
+        // console.log('ownerId:', ownerId) // debugging
 
         const imageRef = getImageStorageRef(storage, ownerId, imageId)
         if (imageRef) {
           const imageUrl = await getDownloadURL(imageRef)
 
           const docRef = doc(db, 'ImageMetaData', 'users', ownerId, imageId)
-          console.log('docRef:', docRef) // debugging
+          // console.log('docRef:', docRef) // debugging
 
           const imageDoc = await getDoc(docRef)
-          console.log('imageDoc:', imageDoc) // debugging
+          // console.log('imageDoc:', imageDoc) // debugging
 
           if (imageDoc.exists()) {
             const data = imageDoc.data()
@@ -100,7 +100,7 @@ function ImagePage({ displayLink }) {
               description: data.description,
               owner: data.owner,
             })
-            console.log('imageData:', imageData)
+            // console.log('imageData:', imageData)
           } else {
             console.error('Image document does not exist')
           }

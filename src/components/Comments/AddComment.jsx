@@ -11,7 +11,7 @@ function AddComment({ setIsCommentsLoading }) {
   const { currentUser } = useContext(AuthContext)
   const [comment, setComment] = useState('')
 
-  console.log('imageId:', imageId)
+  // console.log('imageId:', imageId)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -48,8 +48,9 @@ function AddComment({ setIsCommentsLoading }) {
   return (
     <div className={classes.newCommentBox}>
       {/* <h4>Add Comment</h4> */}
-      <form onSubmit={handleSubmit}>
+      <form name='add-comment-form' onSubmit={handleSubmit}>
         <input
+          id='add-comment'
           type='text'
           placeholder='Add a comment...'
           value={comment}

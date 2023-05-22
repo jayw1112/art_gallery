@@ -12,7 +12,7 @@ function Followers() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  console.log('Followers.jsx: uid:', uid)
+  // console.log('Followers.jsx: uid:', uid)
   useEffect(() => {
     const fetchFollowersData = async () => {
       setLoading(true)

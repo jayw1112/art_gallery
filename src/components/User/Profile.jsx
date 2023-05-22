@@ -57,14 +57,14 @@ function Profile() {
       const userDoc = await getDoc(userDocRef)
       if (userDoc.exists()) {
         const userData = userDoc.data()
-        console.log('Fetched user data:', userData)
+        // console.log('Fetched user data:', userData)
         setDisplayName(userData.displayName)
 
         setProfilePicUrl(userData.photoURL)
-        console.log('Fetched photoURL:', userData.photoURL)
+        // console.log('Fetched photoURL:', userData.photoURL)
 
         setBio(userData.profileInfo)
-        console.log('Fetched profileInfo:', userData.profileInfo)
+        // console.log('Fetched profileInfo:', userData.profileInfo)
       } else {
         console.log('User not found')
         setDisplayName(null)
